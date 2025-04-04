@@ -1,6 +1,6 @@
 package com.policene.voluntech.models.enums;
 
-public enum Role {
+public enum UserRole {
     ADMIN,
     VOLUNTEER,
     ORGANIZATION
