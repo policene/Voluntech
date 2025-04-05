@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,25 +26,35 @@ public class VolunteerController {
         this.volunteerService = volunteerService;
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
+
         List<VolunteerResponseDTO> volunteers = volunteerService.getAll().stream().map(VolunteerResponseDTO::new).collect(Collectors.toList());
-        if (volunteers.isEmpty()) {
-            throw new ResourceNotFoundException("Volunteers not found");
-        }
-        return new ResponseEntity<>(volunteers, HttpStatus.OK);
+
+        return ResponseEntity.ok(volunteers);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VolunteerResponseDTO> getVolunteerById(@PathVariable Long id) {
+        Optional<Volunteer> volunteer = volunteerService.getById(id);
+        return ResponseEntity.ok(new VolunteerResponseDTO(volunteer.get()));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerVolunteer(@RequestBody @Valid VolunteerRequestDTO request) {
+
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
-        return new ResponseEntity<>(new VolunteerResponseDTO(volunteer), HttpStatus.CREATED);
+        URI location = URI.create("/volunteers/" + volunteer.getId());
+
+        return ResponseEntity.created(location).body(new VolunteerResponseDTO(volunteer));
     }
 
-    @PatchMapping("/changePassword/{id}")
+    @PatchMapping("/{id}/changePassword")
     public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordDTO request) {
+
         volunteerService.changePassword(id, request);
+
         return ResponseEntity.noContent().build();
     }
 

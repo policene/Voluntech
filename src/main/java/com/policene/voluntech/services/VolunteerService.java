@@ -56,10 +56,18 @@ public class VolunteerService {
 
 
     public List<Volunteer> getAll() {
-        return repository.findAll();
+        List<Volunteer> volunteers = repository.findAll();
+        if (volunteers.isEmpty()) {
+            throw new ResourceNotFoundException("Volunteers not found");
+        }
+        return volunteers;
     }
 
     public Optional<Volunteer> getById(Long id) {
-        return repository.findById(id);
+        Optional<Volunteer> volunteer = repository.findById(id);
+        if (volunteer.isEmpty()){
+            throw new ResourceNotFoundException("Volunteer not found");
+        }
+        return volunteer;
     }
 }
