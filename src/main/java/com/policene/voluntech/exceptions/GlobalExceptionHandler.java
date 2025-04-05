@@ -27,6 +27,18 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(CpfAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> cpfAlreadyExistsException(CpfAlreadyExistsException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "Conflict",
+                e.getMessage(),
+                HttpStatus.CONFLICT.value(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 

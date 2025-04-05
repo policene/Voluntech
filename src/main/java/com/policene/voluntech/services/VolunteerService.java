@@ -2,6 +2,7 @@ package com.policene.voluntech.services;
 
 import com.policene.voluntech.dtos.VolunteerRequestDTO;
 import com.policene.voluntech.dtos.VolunteerResponseDTO;
+import com.policene.voluntech.exceptions.CpfAlreadyExistsException;
 import com.policene.voluntech.exceptions.EmailAlreadyExistsException;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.models.enums.UserRole;
@@ -24,12 +25,18 @@ public class VolunteerService {
 
     public void register(Volunteer volunteer) {
         Optional<Volunteer> existingEmail = repository.findByEmail(volunteer.getEmail());
+        Optional<Volunteer> existingCpf = repository.findByCpf(volunteer.getCpf());
         if (existingEmail.isPresent()) {
             throw new EmailAlreadyExistsException("Email already exists");
-        } else {
-//        volunteer.setPassword(encoder.encode(volunteer.getPassword()));
-            repository.save(volunteer);
         }
+
+        if (existingCpf.isPresent()) {
+            throw new CpfAlreadyExistsException("CPF already exists");
+        }
+
+//        volunteer.setPassword(encoder.encode(volunteer.getPassword()));
+        repository.save(volunteer);
+
     }
 
 
