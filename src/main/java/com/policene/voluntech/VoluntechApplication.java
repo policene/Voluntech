@@ -10,8 +10,6 @@ public class VoluntechApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VoluntechApplication.class, args);
-
-
 	}
 
 }
