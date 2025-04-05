@@ -1,7 +1,9 @@
 package com.policene.voluntech.controllers;
 
+import com.policene.voluntech.dtos.ChangePasswordDTO;
 import com.policene.voluntech.dtos.VolunteerRequestDTO;
 import com.policene.voluntech.dtos.VolunteerResponseDTO;
+import com.policene.voluntech.exceptions.ResourceNotFoundException;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.services.VolunteerService;
 import jakarta.validation.Valid;
@@ -25,6 +27,9 @@ public class VolunteerController {
     @GetMapping("/get")
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
         List<VolunteerResponseDTO> volunteers = volunteerService.getAll().stream().map(VolunteerResponseDTO::new).collect(Collectors.toList());
+        if (volunteers.isEmpty()) {
+            throw new ResourceNotFoundException("Volunteers not found");
+        }
         return new ResponseEntity<>(volunteers, HttpStatus.OK);
     }
 
@@ -33,6 +38,12 @@ public class VolunteerController {
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
         return new ResponseEntity<>(new VolunteerResponseDTO(volunteer), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/changePassword/{id}")
+    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordDTO request) {
+        volunteerService.changePassword(id, request);
+        return ResponseEntity.noContent().build();
     }
 
 }
