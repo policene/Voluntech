@@ -15,10 +15,13 @@ public abstract class User {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     public UserRole role;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private LocalDateTime createdAt;
