@@ -14,7 +14,7 @@ public record OrganizationRequestDTO(
 
         @NotBlank(message = "Organization name can't be blank")
         String organizationName,
-        @NotBlank(message = "CNPJ can't be blank") @Pattern(regexp = "^.{14}$", message = "Wrong CNPJ format")
+        @NotBlank(message = "CNPJ can't be blank") @Pattern(regexp = "^\\d{14}$", message = "Wrong CNPJ format")
         String cnpj,
         @NotBlank(message = "Phone number can't be blank")
         String phone,

@@ -2,12 +2,14 @@ package com.policene.voluntech.services;
 
 import com.policene.voluntech.exceptions.CnpjAlreadyExistsException;
 import com.policene.voluntech.exceptions.EmailAlreadyExistsException;
+import com.policene.voluntech.exceptions.ResourceNotFoundException;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.repositories.OrganizationRepository;
 import com.policene.voluntech.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,18 @@ public class OrganizationService {
     public OrganizationService(OrganizationRepository organizationRepository, UserRepository userRepository) {
         this.organizationRepository = organizationRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<Organization> getAll () {
+        return organizationRepository.findAll();
+    }
+
+    public Optional<Organization> getById(Long id) {
+        Optional<Organization> organization = organizationRepository.findById(id);
+        if(organization.isEmpty()) {
+            throw new ResourceNotFoundException("Organization not found");
+        }
+        return organizationRepository.findById(id);
     }
 
     public void register(Organization organization) {

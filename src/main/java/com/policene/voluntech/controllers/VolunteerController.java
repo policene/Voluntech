@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/volunteers")
@@ -26,7 +25,7 @@ public class VolunteerController {
 
     @GetMapping
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
-        List<VolunteerResponseDTO> volunteers = volunteerService.getAll().stream().map(VolunteerResponseDTO::new).collect(Collectors.toList());
+        List<VolunteerResponseDTO> volunteers = volunteerService.getAll().stream().map(VolunteerResponseDTO::new).toList();
         return ResponseEntity.ok(volunteers);
     }
 
