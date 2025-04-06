@@ -2,6 +2,7 @@ package com.policene.voluntech.controllers;
 
 import com.policene.voluntech.dtos.organization.OrganizationRequestDTO;
 import com.policene.voluntech.dtos.organization.OrganizationResponseDTO;
+import com.policene.voluntech.dtos.organization.UpdateStatusDTO;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.services.OrganizationService;
 import jakarta.validation.Valid;
@@ -41,6 +42,12 @@ public class OrganizationController {
         organizationService.register(organization);
         URI location = URI.create("/api/organizations/" + organization.getId());
         return ResponseEntity.created(location).body(new OrganizationResponseDTO(organization));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateStatusDTO updateStatusDTO) {
+        organizationService.changeOrganizationStatus(id, updateStatusDTO.status());
+        return ResponseEntity.noContent().build();
     }
 
 }
