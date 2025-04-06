@@ -39,6 +39,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(CnpjAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> cnpjAlreadyExistsException(CnpjAlreadyExistsException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "Conflict",
+                e.getMessage(),
+                HttpStatus.CONFLICT.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> resourceNotFoundException(ResourceNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(

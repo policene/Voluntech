@@ -4,6 +4,7 @@ import com.policene.voluntech.dtos.organization.OrganizationRequestDTO;
 import com.policene.voluntech.dtos.organization.OrganizationResponseDTO;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.services.OrganizationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ public class OrganizationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<OrganizationResponseDTO> register(@RequestBody OrganizationRequestDTO organizationRequestDTO) {
+    public ResponseEntity<OrganizationResponseDTO> register(@RequestBody @Valid OrganizationRequestDTO organizationRequestDTO) {
         Organization organization = new Organization(organizationRequestDTO);
         organizationService.register(organization);
         URI location = URI.create("/api/organizations/" + organization.getId());
