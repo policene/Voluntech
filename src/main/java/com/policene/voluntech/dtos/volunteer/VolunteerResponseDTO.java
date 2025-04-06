@@ -1,4 +1,4 @@
-package com.policene.voluntech.dtos;
+package com.policene.voluntech.dtos.volunteer;
 
 import com.policene.voluntech.models.entities.Volunteer;
 

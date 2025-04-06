@@ -1,7 +1,8 @@
 package com.policene.voluntech.models.entities;
 
-import com.policene.voluntech.dtos.VolunteerRequestDTO;
+import com.policene.voluntech.dtos.volunteer.VolunteerRequestDTO;
 import com.policene.voluntech.models.enums.UserRole;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -11,8 +12,10 @@ import java.time.LocalDateTime;
 @Table(name = "tb_volunteers")
 public class Volunteer extends User {
 
+    @Column(nullable = false)
     private String firstName;
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String cpf;
     private String phone;
 

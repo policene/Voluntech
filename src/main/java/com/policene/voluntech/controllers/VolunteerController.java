@@ -1,13 +1,11 @@
 package com.policene.voluntech.controllers;
 
-import com.policene.voluntech.dtos.ChangePasswordDTO;
-import com.policene.voluntech.dtos.VolunteerRequestDTO;
-import com.policene.voluntech.dtos.VolunteerResponseDTO;
-import com.policene.voluntech.exceptions.ResourceNotFoundException;
+import com.policene.voluntech.dtos.volunteer.ChangePasswordDTO;
+import com.policene.voluntech.dtos.volunteer.VolunteerRequestDTO;
+import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.services.VolunteerService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +26,7 @@ public class VolunteerController {
 
     @GetMapping
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
-
         List<VolunteerResponseDTO> volunteers = volunteerService.getAll().stream().map(VolunteerResponseDTO::new).collect(Collectors.toList());
-
         return ResponseEntity.ok(volunteers);
     }
 
@@ -42,19 +38,15 @@ public class VolunteerController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerVolunteer(@RequestBody @Valid VolunteerRequestDTO request) {
-
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
         URI location = URI.create("/volunteers/" + volunteer.getId());
-
         return ResponseEntity.created(location).body(new VolunteerResponseDTO(volunteer));
     }
 
     @PatchMapping("/{id}/changePassword")
     public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordDTO request) {
-
         volunteerService.changePassword(id, request);
-
         return ResponseEntity.noContent().build();
     }
 

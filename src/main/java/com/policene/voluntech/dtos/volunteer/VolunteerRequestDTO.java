@@ -1,4 +1,4 @@
-package com.policene.voluntech.dtos;
+package com.policene.voluntech.dtos.volunteer;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,13 +1,10 @@
 package com.policene.voluntech.services;
 
-import com.policene.voluntech.dtos.ChangePasswordDTO;
-import com.policene.voluntech.dtos.VolunteerRequestDTO;
-import com.policene.voluntech.dtos.VolunteerResponseDTO;
+import com.policene.voluntech.dtos.volunteer.ChangePasswordDTO;
 import com.policene.voluntech.exceptions.CpfAlreadyExistsException;
 import com.policene.voluntech.exceptions.EmailAlreadyExistsException;
 import com.policene.voluntech.exceptions.ResourceNotFoundException;
 import com.policene.voluntech.models.entities.Volunteer;
-import com.policene.voluntech.models.enums.UserRole;
 import com.policene.voluntech.repositories.VolunteerRepository;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,11 +53,7 @@ public class VolunteerService {
 
 
     public List<Volunteer> getAll() {
-        List<Volunteer> volunteers = repository.findAll();
-        if (volunteers.isEmpty()) {
-            throw new ResourceNotFoundException("Volunteers not found");
-        }
-        return volunteers;
+        return repository.findAll();
     }
 
     public Optional<Volunteer> getById(Long id) {
