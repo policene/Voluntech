@@ -9,6 +9,7 @@ import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.repositories.OrganizationRepository;
 import com.policene.voluntech.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final UserRepository userRepository;
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public OrganizationService(OrganizationRepository organizationRepository, UserRepository userRepository) {
         this.organizationRepository = organizationRepository;
@@ -46,6 +48,7 @@ public class OrganizationService {
         if (existingCnpj.isPresent()){
             throw new CnpjAlreadyExistsException("CNPJ already exists");
         }
+        organization.setPassword(encoder.encode(organization.getPassword()));
         organizationRepository.save(organization);
     }
 

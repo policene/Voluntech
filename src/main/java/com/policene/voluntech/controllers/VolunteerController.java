@@ -35,13 +35,6 @@ public class VolunteerController {
         return ResponseEntity.ok(new VolunteerResponseDTO(volunteer.get()));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerVolunteer(@RequestBody @Valid VolunteerRequestDTO request) {
-        Volunteer volunteer = new Volunteer(request);
-        volunteerService.register(volunteer);
-        URI location = URI.create("/volunteers/" + volunteer.getId());
-        return ResponseEntity.created(location).body(new VolunteerResponseDTO(volunteer));
-    }
 
     @PatchMapping("/{id}/changePassword")
     public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordDTO request) {

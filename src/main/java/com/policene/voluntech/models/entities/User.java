@@ -2,13 +2,18 @@ package com.policene.voluntech.models.entities;
 
 import com.policene.voluntech.models.enums.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,5 +82,39 @@ public abstract class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return switch (role) {
+            case ADMIN -> List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            case VOLUNTEER -> List.of(new SimpleGrantedAuthority("ROLE_VOLUNTEER"));
+            case ORGANIZATION -> List.of(new SimpleGrantedAuthority("ROLE_ORGANIZATION"));
+        };
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

@@ -36,14 +36,6 @@ public class OrganizationController {
         return ResponseEntity.ok(new OrganizationResponseDTO(organization.get()));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<OrganizationResponseDTO> register(@RequestBody @Valid OrganizationRequestDTO organizationRequestDTO) {
-        Organization organization = new Organization(organizationRequestDTO);
-        organizationService.register(organization);
-        URI location = URI.create("/api/organizations/" + organization.getId());
-        return ResponseEntity.created(location).body(new OrganizationResponseDTO(organization));
-    }
-
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateStatusDTO updateStatusDTO) {
         organizationService.changeOrganizationStatus(id, updateStatusDTO.status());

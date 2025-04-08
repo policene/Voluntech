@@ -9,6 +9,8 @@ import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.repositories.UserRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +21,12 @@ public class VolunteerService {
 
     private final VolunteerRepository volunteerRepository;
     private final UserRepository userRepository;
-//    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final PasswordEncoder passwordEncoder;
 
-    public VolunteerService(VolunteerRepository volunteerRepository, UserRepository userRepository) {
+    public VolunteerService(VolunteerRepository volunteerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.volunteerRepository = volunteerRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void register(Volunteer volunteer) {
@@ -37,7 +40,7 @@ public class VolunteerService {
             throw new CpfAlreadyExistsException("CPF already exists");
         }
 
-//        volunteer.setPassword(encoder.encode(volunteer.getPassword()));
+        volunteer.setPassword(passwordEncoder.encode(volunteer.getPassword()));
         volunteerRepository.save(volunteer);
 
     }
