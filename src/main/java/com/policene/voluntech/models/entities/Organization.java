@@ -22,6 +22,8 @@ public class Organization extends User {
     private String cep;
     @Enumerated(EnumType.STRING)
     private OrganizationStatus status;
+    @OneToMany(mappedBy = "organization")
+    private List<Campaign> campaigns;
 
     public Organization() {
     }

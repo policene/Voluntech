@@ -36,7 +36,15 @@ public class OrganizationService {
         if(organization.isEmpty()) {
             throw new ResourceNotFoundException("Organization not found");
         }
-        return organizationRepository.findById(id);
+        return organization;
+    }
+
+    public Optional<Organization> findByEmail(String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if(organization.isEmpty()) {
+            throw new ResourceNotFoundException("Organization not found");
+        }
+        return organization;
     }
 
     public void register(Organization organization) {

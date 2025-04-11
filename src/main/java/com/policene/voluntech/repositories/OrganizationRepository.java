@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
     Optional<Organization> findByCnpj(String cnpj);
+    Optional<Organization> findByEmail(String email);
 }

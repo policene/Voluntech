@@ -1,11 +1,14 @@
 package com.policene.voluntech.controllers;
 
+import com.policene.voluntech.config.security.TokenService;
 import com.policene.voluntech.dtos.authentication.AuthenticationDTO;
+import com.policene.voluntech.dtos.authentication.LoginResponseDTO;
 import com.policene.voluntech.dtos.organization.OrganizationRequestDTO;
 import com.policene.voluntech.dtos.organization.OrganizationResponseDTO;
 import com.policene.voluntech.dtos.volunteer.VolunteerRequestDTO;
 import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.models.entities.Organization;
+import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.services.OrganizationService;
 import com.policene.voluntech.services.VolunteerService;
@@ -25,6 +28,9 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     private final OrganizationService organizationService;
     private final VolunteerService volunteerService;
 
@@ -38,7 +44,9 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var authentication = authenticationManager.authenticate(usernamePassword);
-        return ResponseEntity.ok().build();
+
+        var token = tokenService.generateToken((User) authentication.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
 
