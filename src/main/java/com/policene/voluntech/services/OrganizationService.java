@@ -31,11 +31,8 @@ public class OrganizationService {
         return organizationRepository.findAll();
     }
 
-    public Optional<Organization> getById(Long id) {
-        Optional<Organization> organization = organizationRepository.findById(id);
-        if(organization.isEmpty()) {
-            throw new ResourceNotFoundException("Organization not found");
-        }
+    public Organization getById(Long id) {
+        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization not found"));
         return organization;
     }
 
@@ -46,6 +43,7 @@ public class OrganizationService {
         }
         return organization;
     }
+
 
     public void register(Organization organization) {
         Optional<User> existingEmail = userRepository.findByEmail(organization.getEmail());

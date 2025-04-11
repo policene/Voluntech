@@ -1,6 +1,6 @@
 package com.policene.voluntech.controllers;
 
-import com.policene.voluntech.config.security.TokenService;
+import com.policene.voluntech.services.TokenService;
 import com.policene.voluntech.dtos.authentication.AuthenticationDTO;
 import com.policene.voluntech.dtos.authentication.LoginResponseDTO;
 import com.policene.voluntech.dtos.organization.OrganizationRequestDTO;

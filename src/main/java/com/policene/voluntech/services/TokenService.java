@@ -1,4 +1,4 @@
-package com.policene.voluntech.config.security;
+package com.policene.voluntech.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

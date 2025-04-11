@@ -7,6 +7,7 @@ import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.services.CampaignService;
 import com.policene.voluntech.services.OrganizationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +34,7 @@ public class CampaignController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public ResponseEntity<?> register(@RequestBody CampaignRequestDTO request) {
+    public ResponseEntity<?> register(@RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         Organization organization = organizationService.findByEmail(authenticatedEmail).orElseThrow(
                 () -> new ResourceNotFoundException("Organization not found"));
