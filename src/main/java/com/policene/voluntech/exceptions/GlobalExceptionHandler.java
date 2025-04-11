@@ -98,4 +98,15 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<ErrorResponse> unauthorizedActionException(UnauthorizedActionException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "Forbidden",
+                e.getMessage(),
+                HttpStatus.FORBIDDEN.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
 }

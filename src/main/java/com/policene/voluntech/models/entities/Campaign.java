@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.Optional;
 
 @Entity
+@Table(name = "tb_campaigns")
 public class Campaign {
 
     @Id
@@ -23,12 +24,12 @@ public class Campaign {
     private Double currentAmount;
 
 
-    public Campaign(CampaignRequestDTO request, Optional<Organization> organization) {
+    public Campaign(CampaignRequestDTO request, Organization organization) {
         this.name = request.name();
         this.description = request.description();
         this.goalAmount = request.goalAmount();
         this.currentAmount = 0.00;
-        this.organization = organization.get();
+        this.organization = organization;
     }
 
     public Campaign() {
