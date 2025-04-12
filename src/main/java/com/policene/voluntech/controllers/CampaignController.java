@@ -64,8 +64,16 @@ public class CampaignController {
 
     @GetMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN', 'VOLUNTEER')")
-    public ResponseEntity<List<CampaignResponseDTO>> getAllCampaigns() {
+    public ResponseEntity<List<CampaignResponseDTO>> getAllApprovedCampaigns() {
         List<CampaignResponseDTO> campaigns = campaignService.findAllApprovedCampaigns().stream().map(CampaignResponseDTO::new).toList();
+        return ResponseEntity.ok(campaigns);
+    }
+
+    @GetMapping("/pending")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<CampaignResponseDTO>> getAllPendingCampaigns() {
+        List<CampaignResponseDTO> campaigns = campaignService.findAllPendingCampaigns().stream().map(CampaignResponseDTO::new).toList();
+
         return ResponseEntity.ok(campaigns);
     }
 

@@ -28,6 +28,10 @@ public class CampaignService {
         return campaignRepository.findAll().stream().filter(campaign -> campaign.getStatus() == CampaignStatus.APPROVED).collect(Collectors.toList());
     }
 
+    public List<Campaign> findAllPendingCampaigns() {
+        return campaignRepository.findAll().stream().filter(campaign -> campaign.getStatus() == CampaignStatus.PENDING).collect(Collectors.toList());
+    }
+
     public void createCampaign(Campaign campaign) {
         if (campaign.getOrganization().getStatus() != OrganizationStatus.APPROVED) {
             throw new UnauthorizedActionException("Unapproved organization");
