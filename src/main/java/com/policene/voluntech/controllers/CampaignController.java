@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/campaigns")
@@ -60,8 +62,17 @@ public class CampaignController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'VOLUNTEER')")
+    public ResponseEntity<List<CampaignResponseDTO>> getAllCampaigns() {
+        List<CampaignResponseDTO> campaigns = campaignService.findAllApprovedCampaigns().stream().map(CampaignResponseDTO::new).toList();
+        return ResponseEntity.ok(campaigns);
+    }
+
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
+
+
 
 }

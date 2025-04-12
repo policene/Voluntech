@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CampaignService {
@@ -20,6 +22,10 @@ public class CampaignService {
 
     public CampaignService(CampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
+    }
+
+    public List<Campaign> findAllApprovedCampaigns() {
+        return campaignRepository.findAll().stream().filter(campaign -> campaign.getStatus() == CampaignStatus.APPROVED).collect(Collectors.toList());
     }
 
     public void createCampaign(Campaign campaign) {
