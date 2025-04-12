@@ -1,6 +1,5 @@
 package com.policene.voluntech.services;
 
-import com.policene.voluntech.dtos.organization.UpdateStatusDTO;
 import com.policene.voluntech.exceptions.CnpjAlreadyExistsException;
 import com.policene.voluntech.exceptions.EmailAlreadyExistsException;
 import com.policene.voluntech.exceptions.ResourceNotFoundException;

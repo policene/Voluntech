@@ -1,6 +1,7 @@
 package com.policene.voluntech.models.entities;
 
 import com.policene.voluntech.dtos.campaigns.CampaignRequestDTO;
+import com.policene.voluntech.models.enums.CampaignStatus;
 import jakarta.persistence.*;
 
 import java.util.Optional;
@@ -22,6 +23,8 @@ public class Campaign {
     @Column(nullable = false)
     private Double goalAmount;
     private Double currentAmount;
+    @Enumerated(EnumType.STRING)
+    private CampaignStatus status;
 
 
     public Campaign(CampaignRequestDTO request, Organization organization) {
@@ -30,10 +33,12 @@ public class Campaign {
         this.goalAmount = request.goalAmount();
         this.currentAmount = 0.00;
         this.organization = organization;
+        this.status = CampaignStatus.PENDING;
     }
 
     public Campaign() {
         this.currentAmount = 0.00;
+        this.status = CampaignStatus.PENDING;
     }
 
     public void setCurrentAmount(Double currentAmount) {
@@ -60,6 +65,10 @@ public class Campaign {
         this.organization = organization;
     }
 
+    public void setStatus(CampaignStatus status) {
+        this.status = status;
+    }
+
     public Double getCurrentAmount() {
         return currentAmount;
     }
@@ -83,4 +92,9 @@ public class Campaign {
     public Organization getOrganization() {
         return organization;
     }
+
+    public CampaignStatus getStatus() {
+        return status;
+    }
+
 }

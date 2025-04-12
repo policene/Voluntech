@@ -1,8 +1,7 @@
 package com.policene.voluntech.controllers;
 
 import com.policene.voluntech.dtos.organization.OrganizationResponseDTO;
-import com.policene.voluntech.dtos.organization.UpdateStatusDTO;
-import com.policene.voluntech.exceptions.ResourceNotFoundException;
+import com.policene.voluntech.dtos.organization.UpdateOrganizationStatusDTO;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.services.MailService;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/organizations")
@@ -39,13 +37,13 @@ public class OrganizationController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateStatusDTO updateStatusDTO) {
-        organizationService.changeOrganizationStatus(id, updateStatusDTO.status());
+    public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateOrganizationStatusDTO updateOrganizationStatusDTO) {
+        organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
         Organization organizationFound = organizationService.getById(id);
-        if(updateStatusDTO.status() == OrganizationStatus.APPROVED){
+        if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
             mailService.sendMail(organizationFound.getEmail(), "New status", "Your account has been approved.");
         }
-        if(updateStatusDTO.status() == OrganizationStatus.REJECTED){
+        if(updateOrganizationStatusDTO.status() == OrganizationStatus.REJECTED){
             mailService.sendMail(organizationFound.getEmail(), "New status", "Your account has been rejected.");
         }
 

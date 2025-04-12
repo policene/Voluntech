@@ -2,21 +2,20 @@ package com.policene.voluntech.controllers;
 
 import com.policene.voluntech.dtos.campaigns.CampaignRequestDTO;
 import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
-import com.policene.voluntech.exceptions.ResourceNotFoundException;
-import com.policene.voluntech.exceptions.UnauthorizedActionException;
+import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
+import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.services.CampaignService;
 import com.policene.voluntech.services.OrganizationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/campaigns")
@@ -43,20 +42,26 @@ public class CampaignController {
 
     @PutMapping("/{id}/edit")
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody @Valid CampaignRequestDTO request) {
-        String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+    public ResponseEntity<CampaignResponseDTO> edit(@PathVariable Long id, @RequestBody @Valid CampaignRequestDTO request) {
+        String authenticatedEmail = getAuthentication().getName();
         Campaign campaignToEdit = campaignService.getById(id);
-        String campaignOwnerEmail = campaignToEdit.getOrganization().getEmail();
+        campaignService.updateCampaign(campaignToEdit, authenticatedEmail);
+        return ResponseEntity.ok(new CampaignResponseDTO(campaignToEdit));
 
-        if (authenticatedEmail.equals(campaignOwnerEmail)) {
-            campaignToEdit.setName(request.name());
-            campaignToEdit.setDescription(request.description());
-            campaignToEdit.setGoalAmount(request.goalAmount());
-            campaignService.updateCampaign(campaignToEdit);
-            return ResponseEntity.ok(new CampaignResponseDTO(campaignToEdit));
-        } else {
-            throw new UnauthorizedActionException("Unauthorized action.");
-        }
+    }
+
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ORGANIZATION')")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody UpdateCampaignStatusDTO request) {
+        Authentication auth = getAuthentication();
+        Campaign campaignToEdit = campaignService.getById(id);
+        CampaignStatus status = request.campaignStatus();
+        campaignService.updateCampaignStatus(campaignToEdit, status, auth);
+        return ResponseEntity.noContent().build();
+    }
+
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 }
