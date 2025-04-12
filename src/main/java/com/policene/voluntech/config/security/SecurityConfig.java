@@ -35,9 +35,7 @@ public class SecurityConfig {
 
                 // Define rotas públicas que não necessitam de autenticação (register e login).
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register/organization").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register/volunteer").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/organizations/*/status").hasRole("ADMIN")
                         .requestMatchers("/h2-console/**").permitAll()
                         // Todas as outras rotas necessitam de autenticação.

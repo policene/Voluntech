@@ -21,11 +21,11 @@ public class AdminInitializer {
     @PostConstruct
     public void init() {
         if (userRepository.findByEmail("admin@admin.com").isEmpty()) {
+
             User admin = new User();
             admin.setEmail("admin@admin.com");
             admin.setPassword(encoder.encode("admin123"));
             admin.setRole(UserRole.ADMIN);
-
             userRepository.save(admin);
 
         }
