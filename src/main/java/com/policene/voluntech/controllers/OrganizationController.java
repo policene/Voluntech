@@ -41,10 +41,10 @@ public class OrganizationController {
         organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
         Organization organizationFound = organizationService.getById(id);
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
-            mailService.sendMail(organizationFound.getEmail(), "New status", "Your account has been approved.");
+            mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(), "Your account has been approved.", "Approved");
         }
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.REJECTED){
-            mailService.sendMail(organizationFound.getEmail(), "New status", "Your account has been rejected.");
+            mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(),"Your account has been rejected.", "Rejected");
         }
 
         return ResponseEntity.noContent().build();
