@@ -25,11 +25,15 @@ public class CampaignService {
     }
 
     public List<Campaign> findAllApprovedCampaigns() {
-        return campaignRepository.findAll().stream().filter(campaign -> campaign.getStatus() == CampaignStatus.APPROVED).collect(Collectors.toList());
+        return campaignRepository.findByStatus(CampaignStatus.APPROVED);
     }
 
     public List<Campaign> findAllPendingCampaigns() {
-        return campaignRepository.findAll().stream().filter(campaign -> campaign.getStatus() == CampaignStatus.PENDING).collect(Collectors.toList());
+        return campaignRepository.findByStatus(CampaignStatus.PENDING);
+    }
+
+    public List<Campaign> findAllCampaignsByOrganizationId(Long organizationId) {
+        return campaignRepository.findByOrganization(organizationId);
     }
 
     public void createCampaign(Campaign campaign) {

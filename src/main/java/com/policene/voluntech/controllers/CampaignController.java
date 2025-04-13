@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/campaigns")
+@RequestMapping
 public class CampaignController {
 
     private final CampaignService campaignService;
@@ -31,7 +30,7 @@ public class CampaignController {
         this.organizationService = organizationService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/api/campaigns/create")
     @PreAuthorize("hasRole('ORGANIZATION')")
     public ResponseEntity<?> register(@RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -42,7 +41,7 @@ public class CampaignController {
         return ResponseEntity.created(location).body(new CampaignResponseDTO(campaign));
     }
 
-    @PutMapping("/{id}/edit")
+    @PutMapping("/api/campaigns/{id}/edit")
     @PreAuthorize("hasRole('ORGANIZATION')")
     public ResponseEntity<CampaignResponseDTO> edit(@PathVariable Long id, @RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = getAuthentication().getName();
@@ -52,7 +51,7 @@ public class CampaignController {
 
     }
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/api/campaigns/{id}/status")
     @PreAuthorize("hasAnyRole('ADMIN', 'ORGANIZATION')")
     public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody UpdateCampaignStatusDTO request) {
         Authentication auth = getAuthentication();
@@ -62,20 +61,31 @@ public class CampaignController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/")
+    @GetMapping("/api/campaigns")
     @PreAuthorize("hasAnyRole('ADMIN', 'VOLUNTEER')")
     public ResponseEntity<List<CampaignResponseDTO>> getAllApprovedCampaigns() {
         List<CampaignResponseDTO> campaigns = campaignService.findAllApprovedCampaigns().stream().map(CampaignResponseDTO::new).toList();
         return ResponseEntity.ok(campaigns);
     }
 
-    @GetMapping("/pending")
+    @GetMapping("/api/campaigns/pending")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CampaignResponseDTO>> getAllPendingCampaigns() {
         List<CampaignResponseDTO> campaigns = campaignService.findAllPendingCampaigns().stream().map(CampaignResponseDTO::new).toList();
 
         return ResponseEntity.ok(campaigns);
     }
+
+    @GetMapping("/api/organizations/{id}/campaigns")
+    public ResponseEntity<List<CampaignResponseDTO>> getAllCampaignsFromOrganization(@PathVariable Long id) {
+        List<CampaignResponseDTO> campaigns = campaignService.findAllCampaignsByOrganizationId(id)
+                .stream()
+                .map(CampaignResponseDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(campaigns);
+    }
+
 
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
