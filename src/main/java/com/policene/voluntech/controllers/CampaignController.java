@@ -45,7 +45,7 @@ public class CampaignController {
     @PreAuthorize("hasRole('ORGANIZATION')")
     public ResponseEntity<CampaignResponseDTO> edit(@PathVariable Long id, @RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = getAuthentication().getName();
-        Campaign campaignToEdit = campaignService.getById(id);
+        Campaign campaignToEdit = campaignService.findById(id);
         campaignService.updateCampaign(campaignToEdit, authenticatedEmail);
         return ResponseEntity.ok(new CampaignResponseDTO(campaignToEdit));
 
@@ -55,7 +55,7 @@ public class CampaignController {
     @PreAuthorize("hasAnyRole('ADMIN', 'ORGANIZATION')")
     public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody UpdateCampaignStatusDTO request) {
         Authentication auth = getAuthentication();
-        Campaign campaignToEdit = campaignService.getById(id);
+        Campaign campaignToEdit = campaignService.findById(id);
         CampaignStatus status = request.campaignStatus();
         campaignService.updateCampaignStatus(campaignToEdit, status, auth);
         return ResponseEntity.noContent().build();
@@ -85,6 +85,16 @@ public class CampaignController {
 
         return ResponseEntity.ok(campaigns);
     }
+
+    @PostMapping("/api/campaigns/{id}/join")
+    @PreAuthorize("hasRole('VOLUNTEER')")
+    public ResponseEntity<?> joinCampaign(@PathVariable Long id) {
+        String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        campaignService.joinCampaign(id, authenticatedEmail);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 
     public Authentication getAuthentication() {

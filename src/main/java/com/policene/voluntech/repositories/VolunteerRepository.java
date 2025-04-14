@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
 
     Optional<Volunteer> findByCpf(String cpf);
+    Optional<Volunteer> findByEmail(String email);
 
 }

@@ -5,6 +5,7 @@ import com.policene.voluntech.models.enums.CampaignStatus;
 import jakarta.persistence.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_campaigns")
@@ -25,6 +26,8 @@ public class Campaign {
     private Double currentAmount;
     @Enumerated(EnumType.STRING)
     private CampaignStatus status;
+    @ManyToMany(mappedBy = "campaigns")
+    private Set<Volunteer> volunteers;
 
 
     public Campaign(CampaignRequestDTO request, Organization organization) {
@@ -97,4 +100,11 @@ public class Campaign {
         return status;
     }
 
+    public Set<Volunteer> getVolunteers() {
+        return volunteers;
+    }
+
+    public void setVolunteers(Set<Volunteer> volunteers) {
+        this.volunteers = volunteers;
+    }
 }

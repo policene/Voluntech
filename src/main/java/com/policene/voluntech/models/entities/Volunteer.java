@@ -2,11 +2,11 @@ package com.policene.voluntech.models.entities;
 
 import com.policene.voluntech.dtos.volunteer.VolunteerRequestDTO;
 import com.policene.voluntech.models.enums.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_volunteers")
@@ -18,6 +18,13 @@ public class Volunteer extends User {
     @Column(nullable = false, unique = true)
     private String cpf;
     private String phone;
+    @ManyToMany
+    @JoinTable(
+            name = "tb_volunteer_campaign",
+            joinColumns = @JoinColumn(name = "volunteer_id"),
+            inverseJoinColumns = @JoinColumn(name = "campaign_id")
+    )
+    private Set<Campaign> campaigns;
 
     public Volunteer(){
     }
@@ -68,5 +75,13 @@ public class Volunteer extends User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Set<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
+    public void setCampaigns(Set<Campaign> campaigns) {
+        this.campaigns = campaigns;
     }
 }

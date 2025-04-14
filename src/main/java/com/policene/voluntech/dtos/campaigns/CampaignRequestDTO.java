@@ -10,3 +10,5 @@ public record CampaignRequestDTO(
         @Positive(message = "Goal amount must be a positive number") Double goalAmount
 ) {
 }
+
+

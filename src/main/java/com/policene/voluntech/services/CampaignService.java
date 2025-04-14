@@ -3,10 +3,15 @@ package com.policene.voluntech.services;
 import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
 import com.policene.voluntech.exceptions.ResourceNotFoundException;
 import com.policene.voluntech.exceptions.UnauthorizedActionException;
+import com.policene.voluntech.exceptions.UnavailableCampaignException;
+import com.policene.voluntech.exceptions.VolunteerAlreadySubscribedException;
 import com.policene.voluntech.models.entities.Campaign;
+import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.repositories.CampaignRepository;
+import com.policene.voluntech.repositories.VolunteerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -19,9 +24,11 @@ import java.util.stream.Collectors;
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
+    private final VolunteerRepository volunteerRepository;
 
-    public CampaignService(CampaignRepository campaignRepository) {
+    public CampaignService(CampaignRepository campaignRepository, VolunteerRepository volunteerRepository) {
         this.campaignRepository = campaignRepository;
+        this.volunteerRepository = volunteerRepository;
     }
 
     public List<Campaign> findAllApprovedCampaigns() {
@@ -43,7 +50,7 @@ public class CampaignService {
         campaignRepository.save(campaign);
     }
 
-    public Campaign getById(Long id) {
+    public Campaign findById(Long id) {
         return campaignRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
     }
 
@@ -82,6 +89,24 @@ public class CampaignService {
         } else {
             throw new UnauthorizedActionException("You don't have permission to update this specify status of the campaign.");
         }
+
+    }
+
+    @Transactional
+    public void joinCampaign(Long id, String authenticatedEmail) {
+        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Campaign campaign = findById(id);
+
+        if (campaign.getVolunteers().contains(volunteer)) {
+            throw new VolunteerAlreadySubscribedException("You are already subscribed to this campaign.");
+        }
+
+        if (campaign.getStatus() != CampaignStatus.APPROVED) {
+            throw new UnavailableCampaignException("This campaign is not available to be joined.");
+        }
+
+        volunteer.getCampaigns().add(campaign);
+        campaign.getVolunteers().add(volunteer);
 
     }
 }
