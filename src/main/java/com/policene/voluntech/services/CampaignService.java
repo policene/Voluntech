@@ -109,4 +109,29 @@ public class CampaignService {
         campaign.getVolunteers().add(volunteer);
 
     }
+
+    @Transactional
+    public void leaveCampaign(Long id, String authenticatedEmail) {
+
+        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Campaign campaign = findById(id);
+
+        if (!campaign.getVolunteers().contains(volunteer)) {
+            throw new ResourceNotFoundException("You are not subscribed to this campaign.");
+        }
+
+        if (campaign.getStatus() != CampaignStatus.APPROVED) {
+            throw new UnavailableCampaignException("This campaign is not available to be joined.");
+        }
+
+        volunteer.getCampaigns().remove(campaign);
+        campaign.getVolunteers().remove(volunteer);
+
+    }
+
+    public List<Campaign> findVolunteerSubscribedCampaigns(String authenticatedEmail) {
+        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Long volunteerId = volunteer.getId();
+        return campaignRepository.findVolunteerSubscribedCampaigns(volunteerId);
+    }
 }

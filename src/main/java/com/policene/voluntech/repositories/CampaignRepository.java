@@ -10,8 +10,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CampaignRepository extends JpaRepository<Campaign, Long> {
+
     List<Campaign> findByStatus (CampaignStatus status);
 
     @Query("SELECT c FROM Campaign c WHERE c.organization.id = :organizationId and c.status = 'ACCEPTED'")
     List<Campaign> findByOrganization (@Param("organizationId") Long id);
+
+    @Query("SELECT c from Campaign c JOIN c.volunteers v WHERE v.id = :volunteerId")
+    List<Campaign> findVolunteerSubscribedCampaigns(@Param("volunteerId") Long id);
+
+
 }

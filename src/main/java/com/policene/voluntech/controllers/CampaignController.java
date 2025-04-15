@@ -89,13 +89,32 @@ public class CampaignController {
     @PostMapping("/api/campaigns/{id}/join")
     @PreAuthorize("hasRole('VOLUNTEER')")
     public ResponseEntity<?> joinCampaign(@PathVariable Long id) {
-        String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String authenticatedEmail = getAuthentication().getName();
         campaignService.joinCampaign(id, authenticatedEmail);
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/api/campaigns/{id}/leave")
+    @PreAuthorize("hasRole('VOLUNTEER')")
+    public ResponseEntity<?> leaveCampaign(@PathVariable Long id) {
+        String authenticatedEmail = getAuthentication().getName();
+        campaignService.leaveCampaign(id, authenticatedEmail);
+        return ResponseEntity.noContent().build();
+    }
 
+    @GetMapping("/api/volunteers/me/campaigns")
+    @PreAuthorize("hasRole('VOLUNTEER')")
+    public ResponseEntity<List<CampaignResponseDTO>> getMyCampaigns() {
 
+        String authenticatedEmail = getAuthentication().getName();
+
+        List<CampaignResponseDTO> campaigns = campaignService.findVolunteerSubscribedCampaigns(authenticatedEmail)
+                .stream()
+                .map(CampaignResponseDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(campaigns);
+    }
 
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
