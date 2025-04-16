@@ -3,6 +3,8 @@ package com.policene.voluntech.controllers;
 import com.policene.voluntech.dtos.campaigns.CampaignRequestDTO;
 import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
 import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
+import com.policene.voluntech.dtos.volunteer.ShortVolunteerResponseDTO;
+import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.models.enums.CampaignStatus;
@@ -114,6 +116,17 @@ public class CampaignController {
                 .toList();
 
         return ResponseEntity.ok(campaigns);
+    }
+
+    @GetMapping("/api/campaigns/{id}/volunteers")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ORGANIZATION')")
+    public ResponseEntity<List<ShortVolunteerResponseDTO>> getVolunteersByCampaign(@PathVariable Long id) {
+        List<ShortVolunteerResponseDTO> volunteersSubscribed = campaignService.findCampaignSubscribedVolunteers(id)
+                .stream()
+                .map(ShortVolunteerResponseDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(volunteersSubscribed);
     }
 
     public Authentication getAuthentication() {

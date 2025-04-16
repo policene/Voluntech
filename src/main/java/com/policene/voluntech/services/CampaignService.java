@@ -134,4 +134,9 @@ public class CampaignService {
         Long volunteerId = volunteer.getId();
         return campaignRepository.findVolunteerSubscribedCampaigns(volunteerId);
     }
+
+    public List<Volunteer> findCampaignSubscribedVolunteers(Long id) {
+        Campaign campaign = campaignRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
+        return campaignRepository.findCampaignSubscribedVolunteers(campaign.getId());
+    }
 }

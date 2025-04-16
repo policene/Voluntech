@@ -2,6 +2,7 @@ package com.policene.voluntech.repositories;
 
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
+import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.models.enums.CampaignStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
     @Query("SELECT c from Campaign c JOIN c.volunteers v WHERE v.id = :volunteerId")
     List<Campaign> findVolunteerSubscribedCampaigns(@Param("volunteerId") Long id);
 
+    @Query("SELECT v from Volunteer v JOIN v.campaigns c WHERE c.id = :campaignId")
+    List<Volunteer> findCampaignSubscribedVolunteers(@Param("campaignId") Long id);
 
 }
