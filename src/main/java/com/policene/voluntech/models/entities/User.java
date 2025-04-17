@@ -2,6 +2,9 @@ package com.policene.voluntech.models.entities;
 
 import com.policene.voluntech.models.enums.UserRole;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_users")
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 
     @Id
@@ -29,7 +33,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @CreatedDate
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
 
     public User(LocalDateTime createdAt, String email, Long id, String password, UserRole role) {
@@ -82,6 +92,14 @@ public class User implements UserDetails {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

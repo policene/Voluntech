@@ -3,12 +3,16 @@ package com.policene.voluntech.models.entities;
 import com.policene.voluntech.dtos.campaigns.CampaignRequestDTO;
 import com.policene.voluntech.models.enums.CampaignStatus;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_campaigns")
+@EntityListeners(AuditingEntityListener.class)
 public class Campaign {
 
     @Id
@@ -29,6 +33,14 @@ public class Campaign {
     @ManyToMany(mappedBy = "campaigns")
     private Set<Volunteer> volunteers;
 
+    @CreatedDate
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
 
     public Campaign(CampaignRequestDTO request, Organization organization) {
         this.name = request.name();
@@ -42,6 +54,22 @@ public class Campaign {
     public Campaign() {
         this.currentAmount = 0.00;
         this.status = CampaignStatus.PENDING;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public void setCurrentAmount(Double currentAmount) {

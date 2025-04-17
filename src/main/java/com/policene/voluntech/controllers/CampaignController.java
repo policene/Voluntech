@@ -34,13 +34,13 @@ public class CampaignController {
 
     @PostMapping("/api/campaigns/create")
     @PreAuthorize("hasRole('ORGANIZATION')")
-    public ResponseEntity<?> register(@RequestBody @Valid CampaignRequestDTO request) {
+    public ResponseEntity<Void> register(@RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         Organization organization = organizationService.findByEmail(authenticatedEmail);
         Campaign campaign = new Campaign(request, organization);
         campaignService.createCampaign(campaign);
         URI location = URI.create("/api/campaigns/" + campaign.getId());
-        return ResponseEntity.created(location).body(new CampaignResponseDTO(campaign));
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/api/campaigns/{id}/edit")
