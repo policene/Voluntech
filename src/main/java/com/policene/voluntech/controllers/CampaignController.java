@@ -14,6 +14,7 @@ import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.services.CampaignService;
 import com.policene.voluntech.services.OrganizationService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -127,17 +128,18 @@ public class CampaignController {
     }
 
     @GetMapping("/api/campaigns")
-    public ResponseEntity<List<CampaignResponseDTO>> search (
+    public ResponseEntity<Page<CampaignResponseDTO>> search (
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "min-amount", required = false) Double minAmount,
             @RequestParam(value = "max-amount", required = false) Double maxAmount,
-            @RequestParam(value = "organization-name", required = false) String organizationName
+            @RequestParam(value = "organization-name", required = false) String organizationName,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size
     ) {
 
-        List<CampaignResponseDTO> result = campaignService.searchByFilter(name, minAmount, maxAmount, organizationName)
-                .stream()
-                .map(campaignMapper::toCampaignResponseDTO)
-                .toList();
+        Page<CampaignResponseDTO> result = campaignService.searchByFilter(name, minAmount, maxAmount, organizationName, page, size)
+                .map(campaignMapper::toCampaignResponseDTO);
+
 
         return ResponseEntity.ok(result);
     };

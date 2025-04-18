@@ -13,6 +13,9 @@ import com.policene.voluntech.repositories.CampaignRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
 import com.policene.voluntech.repositories.specs.CampaignSpecs;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -146,7 +149,14 @@ public class CampaignService {
         return campaignRepository.findCampaignSubscribedVolunteers(campaign.getId());
     }
 
-    public List<Campaign> searchByFilter(String name, Double minAmount, Double maxAmount, String organizationName) {
+    public Page<Campaign> searchByFilter(
+            String name,
+            Double minAmount,
+            Double maxAmount,
+            String organizationName,
+            Integer page,
+            Integer size
+    ) {
 
         Specification<Campaign> specs = Specification
                 .where((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
@@ -167,6 +177,8 @@ public class CampaignService {
             specs = specs.and(organizationLike(organizationName));
         }
 
-        return campaignRepository.findAll(specs);
+        Pageable pageRequest = PageRequest.of(page, size);
+
+        return campaignRepository.findAll(specs, pageRequest);
     }
 }
