@@ -11,8 +11,4 @@ public record OrganizationResponseDTO(
         String cep
 ) {
 
-    public OrganizationResponseDTO(Organization organization) {
-        this(organization.getId(), organization.getEmail(), organization.getOrganizationName(), organization.getCnpj(), organization.getPhone(), organization.getCep());
-    }
-
 }
