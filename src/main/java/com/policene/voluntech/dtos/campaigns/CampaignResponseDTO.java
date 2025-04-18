@@ -13,7 +13,4 @@ public record CampaignResponseDTO(
         Double currentAmount,
         CampaignStatus status
 ) {
-    public CampaignResponseDTO (Campaign campaign) {
-        this(campaign.getId(), campaign.getName(), campaign.getDescription(), campaign.getOrganization().getOrganizationName(), campaign.getGoalAmount(), campaign.getCurrentAmount(), campaign.getStatus());
-    }
 }

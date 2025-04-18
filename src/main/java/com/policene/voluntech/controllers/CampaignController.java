@@ -5,6 +5,7 @@ import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
 import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
 import com.policene.voluntech.dtos.volunteer.ShortVolunteerResponseDTO;
 import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
+import com.policene.voluntech.mappers.CampaignMapper;
 import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
@@ -29,11 +30,13 @@ public class CampaignController {
     private final CampaignService campaignService;
     private final OrganizationService organizationService;
     private final VolunteerMapper volunteerMapper;
+    private final CampaignMapper campaignMapper;
 
-    public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper) {
+    public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper, CampaignMapper campaignMapper) {
         this.campaignService = campaignService;
         this.organizationService = organizationService;
         this.volunteerMapper = volunteerMapper;
+        this.campaignMapper = campaignMapper;
     }
 
     @PostMapping("/api/campaigns/create")
@@ -53,7 +56,7 @@ public class CampaignController {
         String authenticatedEmail = getAuthentication().getName();
         Campaign campaignToEdit = campaignService.findById(id);
         campaignService.updateCampaign(campaignToEdit, authenticatedEmail);
-        return ResponseEntity.ok(new CampaignResponseDTO(campaignToEdit));
+        return ResponseEntity.ok(campaignMapper.toCampaignResponseDTO(campaignToEdit));
 
     }
 
@@ -70,26 +73,24 @@ public class CampaignController {
     @GetMapping("/api/campaigns")
     @PreAuthorize("hasAnyRole('ADMIN', 'VOLUNTEER')")
     public ResponseEntity<List<CampaignResponseDTO>> getAllApprovedCampaigns() {
-        List<CampaignResponseDTO> campaigns = campaignService.findAllApprovedCampaigns().stream().map(CampaignResponseDTO::new).toList();
-        return ResponseEntity.ok(campaigns);
+        List<Campaign> campaigns = campaignService.findAllApprovedCampaigns();
+        List<CampaignResponseDTO> response = campaignMapper.toCampaignResponseDTOList(campaigns);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/campaigns/pending")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CampaignResponseDTO>> getAllPendingCampaigns() {
-        List<CampaignResponseDTO> campaigns = campaignService.findAllPendingCampaigns().stream().map(CampaignResponseDTO::new).toList();
-
-        return ResponseEntity.ok(campaigns);
+        List<Campaign> campaigns = campaignService.findAllPendingCampaigns();
+        List<CampaignResponseDTO> response = campaignMapper.toCampaignResponseDTOList(campaigns);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/organizations/{id}/campaigns")
     public ResponseEntity<List<CampaignResponseDTO>> getAllCampaignsFromOrganization(@PathVariable Long id) {
-        List<CampaignResponseDTO> campaigns = campaignService.findAllCampaignsByOrganizationId(id)
-                .stream()
-                .map(CampaignResponseDTO::new)
-                .toList();
-
-        return ResponseEntity.ok(campaigns);
+        List<Campaign> campaigns = campaignService.findAllCampaignsByOrganizationId(id);
+        List<CampaignResponseDTO> response = campaignMapper.toCampaignResponseDTOList(campaigns);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/api/campaigns/{id}/join")
@@ -111,15 +112,10 @@ public class CampaignController {
     @GetMapping("/api/volunteers/me/campaigns")
     @PreAuthorize("hasRole('VOLUNTEER')")
     public ResponseEntity<List<CampaignResponseDTO>> getMyCampaigns() {
-
         String authenticatedEmail = getAuthentication().getName();
-
-        List<CampaignResponseDTO> campaigns = campaignService.findVolunteerSubscribedCampaigns(authenticatedEmail)
-                .stream()
-                .map(CampaignResponseDTO::new)
-                .toList();
-
-        return ResponseEntity.ok(campaigns);
+        List<Campaign> campaigns = campaignService.findVolunteerSubscribedCampaigns(authenticatedEmail);
+        List<CampaignResponseDTO> response = campaignMapper.toCampaignResponseDTOList(campaigns);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/campaigns/{id}/volunteers")
