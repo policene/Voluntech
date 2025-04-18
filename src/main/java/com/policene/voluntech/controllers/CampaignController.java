@@ -5,8 +5,10 @@ import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
 import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
 import com.policene.voluntech.dtos.volunteer.ShortVolunteerResponseDTO;
 import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
+import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
+import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.services.CampaignService;
 import com.policene.voluntech.services.OrganizationService;
@@ -26,10 +28,12 @@ public class CampaignController {
 
     private final CampaignService campaignService;
     private final OrganizationService organizationService;
+    private final VolunteerMapper volunteerMapper;
 
-    public CampaignController(CampaignService campaignService, OrganizationService organizationService) {
+    public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper) {
         this.campaignService = campaignService;
         this.organizationService = organizationService;
+        this.volunteerMapper = volunteerMapper;
     }
 
     @PostMapping("/api/campaigns/create")
@@ -121,12 +125,9 @@ public class CampaignController {
     @GetMapping("/api/campaigns/{id}/volunteers")
     @PreAuthorize("hasAnyRole('ADMIN', 'ORGANIZATION')")
     public ResponseEntity<List<ShortVolunteerResponseDTO>> getVolunteersByCampaign(@PathVariable Long id) {
-        List<ShortVolunteerResponseDTO> volunteersSubscribed = campaignService.findCampaignSubscribedVolunteers(id)
-                .stream()
-                .map(ShortVolunteerResponseDTO::new)
-                .toList();
-
-        return ResponseEntity.ok(volunteersSubscribed);
+        List<Volunteer> volunteersSubscribed = campaignService.findCampaignSubscribedVolunteers(id);
+        List<ShortVolunteerResponseDTO> response = volunteerMapper.toShortVolunteerResponseDTOList(volunteersSubscribed);
+        return ResponseEntity.ok(response);
     }
 
     public Authentication getAuthentication() {

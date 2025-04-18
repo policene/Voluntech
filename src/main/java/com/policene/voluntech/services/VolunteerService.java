@@ -46,7 +46,7 @@ public class VolunteerService {
     }
 
     public void changePassword(Long id, ChangePasswordDTO request) {
-        Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Volunteer volunteer = getById(id);
         if (!volunteer.getPassword().equals(request.oldPassword())) {
             throw new IllegalArgumentException("Old password does not match");
         }
@@ -63,11 +63,9 @@ public class VolunteerService {
         return volunteerRepository.findAll();
     }
 
-    public Optional<Volunteer> getById(Long id) {
-        Optional<Volunteer> volunteer = volunteerRepository.findById(id);
-        if (volunteer.isEmpty()){
-            throw new ResourceNotFoundException("Volunteer not found");
-        }
-        return volunteer;
+    public Volunteer getById(Long id) {
+        return volunteerRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
     }
 }

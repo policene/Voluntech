@@ -1,5 +1,6 @@
 package com.policene.voluntech.controllers;
 
+import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.services.TokenService;
 import com.policene.voluntech.dtos.authentication.AuthenticationDTO;
 import com.policene.voluntech.dtos.authentication.LoginResponseDTO;
@@ -33,10 +34,12 @@ public class AuthenticationController {
 
     private final OrganizationService organizationService;
     private final VolunteerService volunteerService;
+    private final VolunteerMapper volunteerMapper;
 
-    public AuthenticationController(OrganizationService organizationService, VolunteerService volunteerService) {
+    public AuthenticationController(OrganizationService organizationService, VolunteerService volunteerService, VolunteerMapper volunteerMapper) {
         this.organizationService = organizationService;
         this.volunteerService = volunteerService;
+        this.volunteerMapper = volunteerMapper;
     }
 
 
@@ -55,7 +58,7 @@ public class AuthenticationController {
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
         URI location = URI.create("/volunteers/" + volunteer.getId());
-        return ResponseEntity.created(location).body(new VolunteerResponseDTO(volunteer));
+        return ResponseEntity.created(location).body(volunteerMapper.toVolunteerResponseDTO(volunteer));
     }
 
     @PostMapping("/register/organization")
