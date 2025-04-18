@@ -11,14 +11,20 @@ import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.repositories.CampaignRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
+import com.policene.voluntech.repositories.specs.CampaignSpecs;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.policene.voluntech.repositories.specs.CampaignSpecs.*;
+
 
 @Service
 public class CampaignService {
@@ -138,5 +144,29 @@ public class CampaignService {
     public List<Volunteer> findCampaignSubscribedVolunteers(Long id) {
         Campaign campaign = campaignRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
         return campaignRepository.findCampaignSubscribedVolunteers(campaign.getId());
+    }
+
+    public List<Campaign> searchByFilter(String name, Double minAmount, Double maxAmount, String organizationName) {
+
+        Specification<Campaign> specs = Specification
+                .where((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if (name != null && !name.isEmpty()) {
+            specs = specs.and(nameLike(name));
+        }
+
+        if (minAmount != null) {
+            specs = specs.and(hasMinAmount(minAmount));
+        }
+
+        if (maxAmount != null) {
+            specs = specs.and(hasMaxAmount(maxAmount));
+        }
+
+        if (organizationName != null && !organizationName.isEmpty()) {
+            specs = specs.and(organizationLike(organizationName));
+        }
+
+        return campaignRepository.findAll(specs);
     }
 }

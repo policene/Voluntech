@@ -8,7 +8,7 @@ public record CampaignResponseDTO(
         Long id,
         String name,
         String description,
-        String organization,
+        String organizationName,
         Double goalAmount,
         Double currentAmount,
         CampaignStatus status

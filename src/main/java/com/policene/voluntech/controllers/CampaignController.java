@@ -70,7 +70,7 @@ public class CampaignController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/campaigns")
+    @GetMapping("/api/campaigns/approved")
     @PreAuthorize("hasAnyRole('ADMIN', 'VOLUNTEER')")
     public ResponseEntity<List<CampaignResponseDTO>> getAllApprovedCampaigns() {
         List<Campaign> campaigns = campaignService.findAllApprovedCampaigns();
@@ -125,6 +125,22 @@ public class CampaignController {
         List<ShortVolunteerResponseDTO> response = volunteerMapper.toShortVolunteerResponseDTOList(volunteersSubscribed);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/api/campaigns")
+    public ResponseEntity<List<CampaignResponseDTO>> search (
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "min-amount", required = false) Double minAmount,
+            @RequestParam(value = "max-amount", required = false) Double maxAmount,
+            @RequestParam(value = "organization-name", required = false) String organizationName
+    ) {
+
+        List<CampaignResponseDTO> result = campaignService.searchByFilter(name, minAmount, maxAmount, organizationName)
+                .stream()
+                .map(campaignMapper::toCampaignResponseDTO)
+                .toList();
+
+        return ResponseEntity.ok(result);
+    };
 
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
