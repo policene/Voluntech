@@ -32,7 +32,7 @@ public class SecurityConfig {
                 // Desabilita o CSRF, porque vamos utilizar o token JWT.
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
-
+                .formLogin(Customizer.withDefaults())
                 // Define rotas públicas que não necessitam de autenticação (register e login).
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
+                .oauth2Login(Customizer.withDefaults())
                 // Define a política de sessões como stateless.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // O filtro para validação do token é executado antes de qualquer outro padrão do Spring Security.

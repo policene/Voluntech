@@ -43,7 +43,7 @@ public class CampaignController {
     @PostMapping("/api/campaigns/create")
     @PreAuthorize("hasRole('ORGANIZATION')")
     public ResponseEntity<Void> register(@RequestBody @Valid CampaignRequestDTO request) {
-        String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String authenticatedEmail = getAuthentication().getName();
         Organization organization = organizationService.findByEmail(authenticatedEmail);
         Campaign campaign = new Campaign(request, organization);
         campaignService.createCampaign(campaign);
