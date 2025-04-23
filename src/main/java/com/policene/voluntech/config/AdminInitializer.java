@@ -1,4 +1,4 @@
-package com.policene.voluntech.config.security;
+package com.policene.voluntech.config;
 
 import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.enums.UserRole;

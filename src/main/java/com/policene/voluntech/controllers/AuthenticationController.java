@@ -14,6 +14,10 @@ import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.services.OrganizationService;
 import com.policene.voluntech.services.VolunteerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +29,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication")
 public class AuthenticationController {
 
     @Autowired
@@ -47,7 +52,12 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
+    @Operation(summary = "Login", description = "Log in with an existing account.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Logged in sucessfully."),
+            @ApiResponse(responseCode = "401", description = "Incorrect credentials.")
+    })
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var authentication = authenticationManager.authenticate(usernamePassword);
 
@@ -57,6 +67,12 @@ public class AuthenticationController {
 
 
     @PostMapping("/register/volunteer")
+    @Operation(summary = "Register Volunteer", description = "Register a new volunteer.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Registered sucessfully."),
+            @ApiResponse(responseCode = "400", description = "Wrong format or missing credentials."),
+            @ApiResponse(responseCode = "409", description = "E-mail/CPF already registered.")
+    })
     public ResponseEntity<VolunteerResponseDTO> registerVolunteer(@RequestBody @Valid VolunteerRequestDTO request) {
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
@@ -65,6 +81,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register/organization")
+    @Operation(summary = "Register Organization", description = "Register a new organization.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Registered sucessfully."),
+            @ApiResponse(responseCode = "400", description = "Wrong format or missing credentials."),
+            @ApiResponse(responseCode = "409", description = "E-mail/CNPJ already registered.")
+    })
     public ResponseEntity<OrganizationResponseDTO> registerOrganization(@RequestBody @Valid OrganizationRequestDTO organizationRequestDTO) {
         Organization organization = new Organization(organizationRequestDTO);
         organizationService.register(organization);

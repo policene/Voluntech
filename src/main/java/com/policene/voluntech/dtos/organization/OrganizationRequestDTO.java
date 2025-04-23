@@ -1,9 +1,11 @@
 package com.policene.voluntech.dtos.organization;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+@Schema(name = "Organization Request")
 public record OrganizationRequestDTO(
 
         @Email(message = "Wrong email format. ex: name@domain.com") @NotBlank(message = "Email can't be blank")
