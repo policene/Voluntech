@@ -6,10 +6,12 @@ import com.policene.voluntech.exceptions.UnauthorizedActionException;
 import com.policene.voluntech.exceptions.UnavailableCampaignException;
 import com.policene.voluntech.exceptions.VolunteerAlreadySubscribedException;
 import com.policene.voluntech.models.entities.Campaign;
+import com.policene.voluntech.models.entities.Organization;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.models.enums.CampaignStatus;
 import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.repositories.CampaignRepository;
+import com.policene.voluntech.repositories.OrganizationRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
 import com.policene.voluntech.repositories.specs.CampaignSpecs;
 import jakarta.transaction.Transactional;
@@ -34,10 +36,12 @@ public class CampaignService {
 
     private final CampaignRepository campaignRepository;
     private final VolunteerRepository volunteerRepository;
+    private final OrganizationService organizationService;
 
-    public CampaignService(CampaignRepository campaignRepository, VolunteerRepository volunteerRepository) {
+    public CampaignService(CampaignRepository campaignRepository, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, OrganizationService organizationService) {
         this.campaignRepository = campaignRepository;
         this.volunteerRepository = volunteerRepository;
+        this.organizationService = organizationService;
     }
 
     public List<Campaign> findAllApprovedCampaigns() {
@@ -49,6 +53,7 @@ public class CampaignService {
     }
 
     public List<Campaign> findAllCampaignsByOrganizationId(Long organizationId) {
+        organizationService.getById(organizationId);
         return campaignRepository.findByOrganization(organizationId);
     }
 
@@ -130,7 +135,7 @@ public class CampaignService {
         }
 
         if (campaign.getStatus() != CampaignStatus.APPROVED) {
-            throw new UnavailableCampaignException("This campaign is not available to be joined.");
+            throw new UnavailableCampaignException("You can't leave this campaign.");
         }
 
         volunteer.getCampaigns().remove(campaign);
@@ -176,6 +181,8 @@ public class CampaignService {
         if (organizationName != null && !organizationName.isEmpty()) {
             specs = specs.and(organizationLike(organizationName));
         }
+
+        specs = specs.and(hasStatusApproved());
 
         Pageable pageRequest = PageRequest.of(page, size);
 

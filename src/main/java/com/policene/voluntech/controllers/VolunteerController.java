@@ -6,8 +6,14 @@ import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.services.VolunteerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -16,6 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/volunteers")
+@Tag(name = "Volunteer")
 public class VolunteerController {
 
     private final VolunteerService volunteerService;
@@ -27,6 +34,13 @@ public class VolunteerController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get All Volunteers", description = "Get all registered volunteers using an admin authentication.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success."),
+            @ApiResponse(responseCode = "401", description = "Not authenticated."),
+            @ApiResponse(responseCode = "403", description = "Forbidden activity.")
+    })
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
         List<Volunteer> volunteers = volunteerService.getAll();
         List<VolunteerResponseDTO> response = volunteerMapper.toVolunteerResponseDTOList(volunteers);
@@ -34,6 +48,14 @@ public class VolunteerController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get Volunteer By Id", description = "Get an volunteer by id using an admin authentication.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success."),
+            @ApiResponse(responseCode = "404", description = "Volunteer not found."),
+            @ApiResponse(responseCode = "401", description = "Not authenticated."),
+            @ApiResponse(responseCode = "403", description = "Forbidden activity.")
+    })
     public ResponseEntity<VolunteerResponseDTO> getVolunteerById(@PathVariable Long id) {
         Volunteer volunteer = volunteerService.getById(id);
         VolunteerResponseDTO response = volunteerMapper.toVolunteerResponseDTO(volunteer);
@@ -41,9 +63,18 @@ public class VolunteerController {
     }
 
 
-    @PatchMapping("/{id}/changePassword")
-    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordDTO request) {
-        volunteerService.changePassword(id, request);
+    @PatchMapping("/me/changePassword")
+    @PreAuthorize("hasRole('VOLUNTEER')")
+    @Operation(summary = "Change Password", description = "Change your own password being authenticated as a volunteer.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Success."),
+            @ApiResponse(responseCode = "400", description = "Wrong or missing credentials."),
+            @ApiResponse(responseCode = "401", description = "Not authenticated."),
+            @ApiResponse(responseCode = "403", description = "Forbidden activity.")
+    })
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO request) {
+        String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        volunteerService.changePassword(authenticatedEmail, request);
         return ResponseEntity.noContent().build();
     }
 

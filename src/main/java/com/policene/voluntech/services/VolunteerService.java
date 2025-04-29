@@ -45,12 +45,12 @@ public class VolunteerService {
 
     }
 
-    public void changePassword(Long id, ChangePasswordDTO request) {
-        Volunteer volunteer = getById(id);
-        if (!volunteer.getPassword().equals(request.oldPassword())) {
+    public void changePassword(String email, ChangePasswordDTO request) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Volunteer not found"));
+        if (!passwordEncoder.matches(request.oldPassword(), volunteer.getPassword())) {
             throw new IllegalArgumentException("Old password does not match");
         }
-        volunteer.setPassword(request.newPassword());
+        volunteer.setPassword(passwordEncoder.encode(request.newPassword()));
         update(volunteer);
     }
 

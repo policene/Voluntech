@@ -31,5 +31,11 @@ public class CampaignSpecs {
         };
     }
 
+    public static Specification<Campaign> hasStatusApproved() {
+        return (root, query, cb) -> {
+             return cb.equal(root.get("status"), CampaignStatus.APPROVED);
+        };
+    }
+
 
 }

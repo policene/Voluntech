@@ -31,8 +31,7 @@ public class OrganizationService {
     }
 
     public Organization getById(Long id) {
-        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization not found"));
-        return organization;
+        return organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization not found"));
     }
 
     public Organization findByEmail(String email) {
