@@ -19,13 +19,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
 
 @RestController
 @RequestMapping("/auth")
@@ -43,12 +48,16 @@ public class AuthenticationController {
     private final VolunteerMapper volunteerMapper;
     private final OrganizationMapper organizationMapper;
 
+    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
     public AuthenticationController(OrganizationService organizationService, VolunteerService volunteerService, VolunteerMapper volunteerMapper, OrganizationMapper organizationMapper) {
         this.organizationService = organizationService;
         this.volunteerService = volunteerService;
         this.volunteerMapper = volunteerMapper;
         this.organizationMapper = organizationMapper;
     }
+
+
 
 
     @PostMapping("/login")
@@ -58,11 +67,19 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "401", description = "Incorrect credentials.")
     })
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var authentication = authenticationManager.authenticate(usernamePassword);
+        logger.info("[Login] Attempt to login for email: {}", maskEmail(data.email()));
 
-        var token = tokenService.generateToken((User) authentication.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+            var authentication = authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((User) authentication.getPrincipal());
+            logger.info("[Login] Sucess login attempt for email: {}", maskEmail(data.email()));
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (BadCredentialsException e) {
+            logger.warn("[Login] Failed login attempt for email: {}", maskEmail(data.email()));
+            throw e;
+        }
+
     }
 
 
@@ -74,6 +91,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "409", description = "E-mail/CPF already registered.")
     })
     public ResponseEntity<VolunteerResponseDTO> registerVolunteer(@RequestBody @Valid VolunteerRequestDTO request) {
+        logger.info("[Register Volunteer] Attempting to register new volunteer.");
         Volunteer volunteer = new Volunteer(request);
         volunteerService.register(volunteer);
         URI location = URI.create("/volunteers/" + volunteer.getId());
@@ -88,6 +106,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "409", description = "E-mail/CNPJ already registered.")
     })
     public ResponseEntity<OrganizationResponseDTO> registerOrganization(@RequestBody @Valid OrganizationRequestDTO organizationRequestDTO) {
+        logger.info("[Register Organization] Attempting to register new organization.");
         Organization organization = new Organization(organizationRequestDTO);
         organizationService.register(organization);
         URI location = URI.create("/api/organizations/" + organization.getId());

@@ -8,6 +8,8 @@ import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.repositories.UserRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class VolunteerService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    Logger logger = LoggerFactory.getLogger(VolunteerService.class);
+
     public VolunteerService(VolunteerRepository volunteerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.volunteerRepository = volunteerRepository;
         this.userRepository = userRepository;
@@ -31,16 +35,18 @@ public class VolunteerService {
         Optional<User> existingEmail = userRepository.findByEmail(volunteer.getEmail());
         Optional<Volunteer> existingCpf = volunteerRepository.findByCpf(volunteer.getCpf());
         if (existingEmail.isPresent()) {
+            logger.warn("[Register Volunteer] Attempt failed. Email already in use.");
             throw new EmailAlreadyExistsException("Email already exists");
         }
 
         if (existingCpf.isPresent()) {
+            logger.warn("[Register Volunteer] Attempt failed. CPF already in use.");
             throw new CpfAlreadyExistsException("CPF already exists");
         }
 
         volunteer.setPassword(passwordEncoder.encode(volunteer.getPassword()));
         volunteerRepository.save(volunteer);
-
+        logger.info("[Register Volunteer] Volunteer successfully registered.");
     }
 
     public void changePassword(String email, ChangePasswordDTO request) {

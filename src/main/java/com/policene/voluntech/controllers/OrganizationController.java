@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class OrganizationController {
     private final OrganizationService organizationService;
     private final OrganizationMapper organizationMapper;
     private final MailService mailService;
+
+    Logger logger = LoggerFactory.getLogger(OrganizationController.class);
 
     public OrganizationController(OrganizationService organizationService, OrganizationMapper organizationMapper, MailService mailService) {
         this.organizationService = organizationService;
@@ -69,11 +73,14 @@ public class OrganizationController {
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateOrganizationStatusDTO updateOrganizationStatusDTO) {
         organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
         Organization organizationFound = organizationService.getById(id);
+
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
             mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(), "Your account has been approved.", "Approved");
+            logger.info("Send approved account email to {}", organizationFound.getEmail());
         }
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.REJECTED){
             mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(),"Your account has been rejected.", "Rejected");
+            logger.info("Send rejected account email to {}", organizationFound.getEmail());
         }
 
         return ResponseEntity.noContent().build();
