@@ -8,8 +8,6 @@ import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.repositories.UserRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
