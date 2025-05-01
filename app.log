@@ -40,3 +40,11 @@
 2025-05-01T10:02:41.407-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-05-01T10:02:41.408-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 2025-05-01T10:02:42.212-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 479 ms
+2025-05-01T10:05:53.543-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-2] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: em***@gmail.com
+2025-05-01T10:05:53.713-03:00  WARN 21604 --- [voluntech] [http-nio-8080-exec-2] c.p.v.c.AuthenticationController         : [Login] Failed login attempt for email: em***@gmail.com
+2025-05-01T10:05:58.421-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: em***@gmail.com
+2025-05-01T10:05:58.523-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.AuthenticationController         : [Login] Sucess login attempt for email: em***@gmail.com
+2025-05-01T10:06:29.248-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-4] c.p.v.controllers.VolunteerController    : [Change Password] Attempt to change password for volunteer: em***@gmail.com
+2025-05-01T10:06:29.324-03:00  WARN 21604 --- [voluntech] [http-nio-8080-exec-4] c.p.voluntech.services.VolunteerService  : [Change Password] Invalid credentials for volunteer: 4.
+2025-05-01T10:06:55.869-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-6] c.p.v.controllers.VolunteerController    : [Change Password] Attempt to change password for volunteer: em***@gmail.com
+2025-05-01T10:06:56.115-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-6] c.p.voluntech.services.VolunteerService  : [Change Password] Successful change password for volunteer: 4
