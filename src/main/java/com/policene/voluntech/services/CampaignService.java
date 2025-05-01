@@ -1,6 +1,6 @@
 package com.policene.voluntech.services;
 
-import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
+import com.policene.voluntech.controllers.CampaignController;
 import com.policene.voluntech.exceptions.ResourceNotFoundException;
 import com.policene.voluntech.exceptions.UnauthorizedActionException;
 import com.policene.voluntech.exceptions.UnavailableCampaignException;
@@ -13,8 +13,9 @@ import com.policene.voluntech.models.enums.OrganizationStatus;
 import com.policene.voluntech.repositories.CampaignRepository;
 import com.policene.voluntech.repositories.OrganizationRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
-import com.policene.voluntech.repositories.specs.CampaignSpecs;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.policene.voluntech.repositories.specs.CampaignSpecs.*;
 
@@ -37,6 +36,8 @@ public class CampaignService {
     private final CampaignRepository campaignRepository;
     private final VolunteerRepository volunteerRepository;
     private final OrganizationService organizationService;
+
+    Logger logger = LoggerFactory.getLogger(CampaignService.class);
 
     public CampaignService(CampaignRepository campaignRepository, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, OrganizationService organizationService) {
         this.campaignRepository = campaignRepository;
@@ -58,24 +59,58 @@ public class CampaignService {
     }
 
     public void createCampaign(Campaign campaign) {
-        if (campaign.getOrganization().getStatus() != OrganizationStatus.APPROVED) {
+        Organization organization = campaign.getOrganization();
+
+        if (organization.getStatus() != OrganizationStatus.APPROVED) {
+            logger.info("[Create Campaign] Failed to create campaign. Organization {} status is {} ", organization.getId(), organization.getStatus());
             throw new UnauthorizedActionException("Unapproved organization");
         }
         campaignRepository.save(campaign);
+        logger.info("[Create Campaign] Created new campaign {} for organization {} ",campaign.getId(), organization.getId());
     }
 
     public Campaign findById(Long id) {
-        return campaignRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
+        return campaignRepository.findById(id).orElseThrow(() -> {
+            logger.info("[Find Campaign] Failed to find campaign with id {} ", id);
+            return new ResourceNotFoundException("Campaign not found");
+            });
     }
 
-    public void updateCampaign(Campaign campaign, String email) {
-        if (campaign.getStatus() != CampaignStatus.PENDING) {
-            throw new IllegalStateException("Only campaigns with PENDING status can be edited.");
-        }
-        if (!campaign.getOrganization().getEmail().equals(email)) {
+    public void updateCampaign(Campaign campaignToEdit, Campaign campaignRequest, String email) {
+
+        if (!campaignToEdit.getOrganization().getEmail().equals(email)) {
+            logger.warn("[Edit Campaign] Failed to edit campaign {}. Forbidden action.", campaignToEdit.getId());
             throw new UnauthorizedActionException("You don't have permission to edit the campaign.");
         }
-        campaignRepository.save(campaign);
+
+        if (campaignToEdit.getStatus() != CampaignStatus.PENDING) {
+            logger.warn("[Edit Campaign] Failed to edit campaign {}. Campaign do not have PENDING status.", campaignToEdit.getId());
+            throw new IllegalStateException("Only campaigns with PENDING status can be edited.");
+        }
+
+        boolean isDifferent = false;
+
+        if (!campaignToEdit.getName().equals(campaignRequest.getName())) {
+            campaignToEdit.setName(campaignRequest.getName());
+            isDifferent = true;
+        }
+
+        if (!campaignToEdit.getDescription().equals(campaignRequest.getDescription())) {
+            campaignToEdit.setDescription(campaignRequest.getDescription());
+            isDifferent = true;
+        }
+
+        if (!Objects.equals(campaignToEdit.getGoalAmount(), campaignRequest.getGoalAmount())){
+            campaignToEdit.setGoalAmount(campaignRequest.getGoalAmount());
+            isDifferent = true;
+        }
+
+        if (isDifferent) {
+            campaignRepository.save(campaignToEdit);
+            logger.info("[Edit Campaign] Success in editing campaign {}", campaignToEdit.getId());
+        } else {
+            logger.info("[Edit Campaign] Failed to edit campaign {}. Data was equal.", campaignToEdit.getId());
+        }
     }
 
     public void updateCampaignStatus(Campaign campaign, CampaignStatus status, Authentication auth) {

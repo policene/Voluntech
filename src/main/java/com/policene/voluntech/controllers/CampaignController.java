@@ -17,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
+
 @RestController
 @RequestMapping
 @Tag(name = "Campaign")
@@ -36,6 +40,8 @@ public class CampaignController {
     private final OrganizationService organizationService;
     private final VolunteerMapper volunteerMapper;
     private final CampaignMapper campaignMapper;
+
+    Logger logger = LoggerFactory.getLogger(CampaignController.class);
 
     public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper, CampaignMapper campaignMapper) {
         this.campaignService = campaignService;
@@ -56,6 +62,7 @@ public class CampaignController {
     public ResponseEntity<Void> register(@RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = getAuthentication().getName();
         Organization organization = organizationService.findByEmail(authenticatedEmail);
+        logger.info("[Create Campaign] Attempt to create a new campaign for organization: {}", organization.getId());
         Campaign campaign = new Campaign(request, organization);
         campaignService.createCampaign(campaign);
         URI location = URI.create("/api/campaigns/" + campaign.getId());
@@ -73,10 +80,11 @@ public class CampaignController {
     })
     public ResponseEntity<CampaignResponseDTO> edit(@PathVariable Long id, @RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = getAuthentication().getName();
+        logger.info("[Edit Campaign] Attempt to edit campaign: {}, by: {}", id, maskEmail(authenticatedEmail));
+        Campaign campaignRequest = campaignMapper.toCampaign(request);
         Campaign campaignToEdit = campaignService.findById(id);
-        campaignService.updateCampaign(campaignToEdit, authenticatedEmail);
+        campaignService.updateCampaign(campaignToEdit, campaignRequest, authenticatedEmail);
         return ResponseEntity.ok(campaignMapper.toCampaignResponseDTO(campaignToEdit));
-
     }
 
     @PatchMapping("/api/campaigns/{id}/status")

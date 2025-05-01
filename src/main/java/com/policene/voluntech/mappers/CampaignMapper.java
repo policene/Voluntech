@@ -1,5 +1,6 @@
 package com.policene.voluntech.mappers;
 
+import com.policene.voluntech.dtos.campaigns.CampaignRequestDTO;
 import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
 import com.policene.voluntech.models.entities.Campaign;
 import org.mapstruct.Mapper;
@@ -16,5 +17,6 @@ public interface CampaignMapper {
     @Mapping(source = "organization.organizationName", target = "organizationName")
     CampaignResponseDTO toCampaignResponseDTO(Campaign campaign);
     List<CampaignResponseDTO> toCampaignResponseDTOList(List<Campaign> campaigns);
+    Campaign toCampaign(CampaignRequestDTO campaignRequestDTO);
 
 }
