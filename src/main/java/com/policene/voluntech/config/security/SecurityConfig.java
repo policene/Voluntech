@@ -38,6 +38,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/organizations/*/status").hasRole("ADMIN")
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/v2/api-docs/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
                         // Todas as outras rotas necessitam de autenticação.
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -49,20 +55,6 @@ public class SecurityConfig {
 
     }
 
-
-    // Função que faz com que as seguintes URLs sequer passem pelo filtro de segurança.
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web ->
-            web.ignoring().requestMatchers(
-                    "/v2/api-docs/**",
-                    "/v3/api-docs/**",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html",
-                    "/swagger-ui/**",
-                    "/webjars/**"
-            );
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
