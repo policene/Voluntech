@@ -98,6 +98,7 @@ public class CampaignController {
     })
     public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody UpdateCampaignStatusDTO request) {
         Authentication auth = getAuthentication();
+        logger.info("[Update Campaign Status] Attempt to change status of campaign: {}, by: {}", id, maskEmail(auth.getName()));
         Campaign campaignToEdit = campaignService.findById(id);
         CampaignStatus status = request.campaignStatus();
         campaignService.updateCampaignStatus(campaignToEdit, status, auth);
@@ -157,6 +158,7 @@ public class CampaignController {
     })
     public ResponseEntity<?> joinCampaign(@PathVariable Long id) {
         String authenticatedEmail = getAuthentication().getName();
+        logger.info("[Join Campaign] Attempt to join campaign: {}, by volunteer: {}", id, maskEmail(authenticatedEmail));
         campaignService.joinCampaign(id, authenticatedEmail);
         return ResponseEntity.noContent().build();
     }
@@ -172,6 +174,7 @@ public class CampaignController {
     })
     public ResponseEntity<?> leaveCampaign(@PathVariable Long id) {
         String authenticatedEmail = getAuthentication().getName();
+        logger.info("[Leave Campaign] Attempt to leave campaign: {}, by volunteer: {}", id, maskEmail(authenticatedEmail));
         campaignService.leaveCampaign(id, authenticatedEmail);
         return ResponseEntity.noContent().build();
     }
@@ -224,7 +227,7 @@ public class CampaignController {
 
 
         return ResponseEntity.ok(result);
-    };
+    }
 
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();

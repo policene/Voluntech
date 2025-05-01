@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.policene.voluntech.repositories.specs.CampaignSpecs.*;
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
 
 
 @Service
@@ -62,16 +63,16 @@ public class CampaignService {
         Organization organization = campaign.getOrganization();
 
         if (organization.getStatus() != OrganizationStatus.APPROVED) {
-            logger.info("[Create Campaign] Failed to create campaign. Organization {} status is {} ", organization.getId(), organization.getStatus());
+            logger.info("[Create Campaign] Failed to create campaign. Organization {} status is {}.", organization.getId(), organization.getStatus());
             throw new UnauthorizedActionException("Unapproved organization");
         }
         campaignRepository.save(campaign);
-        logger.info("[Create Campaign] Created new campaign {} for organization {} ",campaign.getId(), organization.getId());
+        logger.info("[Create Campaign] Created new campaign {} for organization {}.",campaign.getId(), organization.getId());
     }
 
     public Campaign findById(Long id) {
         return campaignRepository.findById(id).orElseThrow(() -> {
-            logger.info("[Find Campaign] Failed to find campaign with id {} ", id);
+            logger.info("[Find Campaign] Failed to find campaign with id {}.", id);
             return new ResourceNotFoundException("Campaign not found");
             });
     }
@@ -107,7 +108,7 @@ public class CampaignService {
 
         if (isDifferent) {
             campaignRepository.save(campaignToEdit);
-            logger.info("[Edit Campaign] Success in editing campaign {}", campaignToEdit.getId());
+            logger.info("[Edit Campaign] Success in editing campaign {}.", campaignToEdit.getId());
         } else {
             logger.info("[Edit Campaign] Failed to edit campaign {}. Data was equal.", campaignToEdit.getId());
         }
@@ -120,6 +121,7 @@ public class CampaignService {
         boolean isCampaignApproved = campaign.getStatus() == CampaignStatus.APPROVED;
 
         if (!isAdmin && !isOwner) {
+            logger.warn("[Update Campaign Status] Denied access for user {}.", maskEmail(auth.getName()));
             throw new UnauthorizedActionException("You don't have permission to update the status of the campaign.");
         }
 
@@ -135,7 +137,9 @@ public class CampaignService {
         if (hasPermisison) {
             campaign.setStatus(status);
             campaignRepository.save(campaign);
+            logger.info("[Update Campaign Status] Success in editing campaign: {}, by: {}.", campaign.getId(), maskEmail(auth.getName()));
         } else {
+            logger.info("[Update Campaign Status] No permission to update campaign: {}, by: {}.", campaign.getId(), maskEmail(auth.getName()));
             throw new UnauthorizedActionException("You don't have permission to update this specify status of the campaign.");
         }
 
@@ -143,38 +147,54 @@ public class CampaignService {
 
     @Transactional
     public void joinCampaign(Long id, String authenticatedEmail) {
-        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> {
+            logger.error("[Join Campaign] Volunteer {} do not exist.", maskEmail(authenticatedEmail));
+            return new ResourceNotFoundException("Volunteer not found");
+        });
+
         Campaign campaign = findById(id);
 
         if (campaign.getVolunteers().contains(volunteer)) {
+            logger.warn("[Join Campaign] Failed to join campaign {}. Volunteer {} is already subcribed.", campaign.getId(), volunteer.getId());
             throw new VolunteerAlreadySubscribedException("You are already subscribed to this campaign.");
         }
 
         if (campaign.getStatus() != CampaignStatus.APPROVED) {
+            logger.warn("[Join Campaign] Failed to join campaign {}. Campaign status is not APPROVED.", campaign.getId());
             throw new UnavailableCampaignException("This campaign is not available to be joined.");
         }
 
         volunteer.getCampaigns().add(campaign);
         campaign.getVolunteers().add(volunteer);
 
+        logger.info("[Join Campaign] Successfully volunteer {} joined campaign {}", volunteer.getId(), campaign.getId());
+
     }
 
     @Transactional
     public void leaveCampaign(Long id, String authenticatedEmail) {
 
-        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+        Volunteer volunteer = volunteerRepository.findByEmail(authenticatedEmail).orElseThrow(() -> {
+            logger.error("[Leave Campaign] Volunteer {} do not exist.", maskEmail(authenticatedEmail));
+            return new ResourceNotFoundException("Volunteer not found");
+        });
+
         Campaign campaign = findById(id);
 
         if (!campaign.getVolunteers().contains(volunteer)) {
+            logger.warn("[Leave Campaign] Failed to leave campaign {}. Volunteer {} is not subscribed.", campaign.getId(), volunteer.getId());
             throw new ResourceNotFoundException("You are not subscribed to this campaign.");
         }
 
         if (campaign.getStatus() != CampaignStatus.APPROVED) {
+            logger.warn("[Leave Campaign] Failed to leave campaign {}. Campaign status is not APPROVED anymore.", campaign.getId());
             throw new UnavailableCampaignException("You can't leave this campaign.");
         }
 
         volunteer.getCampaigns().remove(campaign);
         campaign.getVolunteers().remove(volunteer);
+
+        logger.info("[Leave Campaign] Successfully volunteer {} left campaign {}", volunteer.getId(), campaign.getId());
 
     }
 
