@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
+
 @Service
 public class VolunteerService {
 
@@ -50,12 +52,20 @@ public class VolunteerService {
     }
 
     public void changePassword(String email, ChangePasswordDTO request) {
-        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Volunteer not found"));
+        Volunteer volunteer = volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    logger.error("[Change Password] Authenticated email {} does not exist.", maskEmail(email));
+                    return new ResourceNotFoundException("Volunteer not found");
+                });
+
         if (!passwordEncoder.matches(request.oldPassword(), volunteer.getPassword())) {
+            logger.warn("[Change Password] Invalid credentials for volunteer id: {}, email: {}", volunteer.getId(), maskEmail(email));
             throw new IllegalArgumentException("Old password does not match");
         }
+
         volunteer.setPassword(passwordEncoder.encode(request.newPassword()));
         update(volunteer);
+        logger.info("[Change Password] Successful change password for volunteer: {}, email: {}", volunteer.getId(), maskEmail(email));
     }
 
     public void update (Volunteer volunteer) {

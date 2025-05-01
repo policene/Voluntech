@@ -1,21 +1,21 @@
-2025-04-29T13:28:03.755-03:00  INFO 17572 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Starting VoluntechApplication using Java 23.0.2 with PID 17572 (C:\Users\Giovanni\Desktop\Programação\voluntech\target\classes started by Giovanni in C:\Users\Giovanni\Desktop\Programação\voluntech)
-2025-04-29T13:28:03.758-03:00  INFO 17572 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-04-29T13:28:05.184-03:00  INFO 17572 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-04-29T13:28:05.252-03:00  INFO 17572 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 4 JPA repository interfaces.
-2025-04-29T13:28:05.977-03:00  INFO 17572 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-04-29T13:28:05.993-03:00  INFO 17572 --- [voluntech] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-04-29T13:28:05.993-03:00  INFO 17572 --- [voluntech] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-04-29T13:28:06.057-03:00  INFO 17572 --- [voluntech] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-04-29T13:28:06.058-03:00  INFO 17572 --- [voluntech] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2224 ms
-2025-04-29T13:28:06.224-03:00  INFO 17572 --- [voluntech] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-04-29T13:28:06.298-03:00  INFO 17572 --- [voluntech] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
-2025-04-29T13:28:06.335-03:00  INFO 17572 --- [voluntech] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-04-29T13:28:06.637-03:00  INFO 17572 --- [voluntech] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-04-29T13:28:06.669-03:00  INFO 17572 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-04-29T13:28:06.854-03:00  INFO 17572 --- [voluntech] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3516b881
-2025-04-29T13:28:06.855-03:00  INFO 17572 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-04-29T13:28:06.888-03:00  WARN 17572 --- [voluntech] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-04-29T13:28:06.908-03:00  INFO 17572 --- [voluntech] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-05-01T10:02:23.824-03:00  INFO 21604 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Starting VoluntechApplication using Java 23.0.2 with PID 21604 (C:\Users\Giovanni\Desktop\Programação\voluntech\target\classes started by Giovanni in C:\Users\Giovanni\Desktop\Programação\voluntech)
+2025-05-01T10:02:23.835-03:00  INFO 21604 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-05-01T10:02:28.461-03:00  INFO 21604 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-01T10:02:28.583-03:00  INFO 21604 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107 ms. Found 4 JPA repository interfaces.
+2025-05-01T10:02:29.763-03:00  INFO 21604 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-01T10:02:29.783-03:00  INFO 21604 --- [voluntech] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-01T10:02:29.783-03:00  INFO 21604 --- [voluntech] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
+2025-05-01T10:02:29.850-03:00  INFO 21604 --- [voluntech] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-01T10:02:29.851-03:00  INFO 21604 --- [voluntech] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5853 ms
+2025-05-01T10:02:30.081-03:00  INFO 21604 --- [voluntech] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-01T10:02:30.263-03:00  INFO 21604 --- [voluntech] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
+2025-05-01T10:02:30.333-03:00  INFO 21604 --- [voluntech] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-01T10:02:30.904-03:00  INFO 21604 --- [voluntech] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-01T10:02:31.050-03:00  INFO 21604 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-01T10:02:32.061-03:00  INFO 21604 --- [voluntech] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4768b95c
+2025-05-01T10:02:32.063-03:00  INFO 21604 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-01T10:02:32.271-03:00  WARN 21604 --- [voluntech] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-01T10:02:32.325-03:00  INFO 21604 --- [voluntech] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 17.4
@@ -23,179 +23,20 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-04-29T13:28:07.980-03:00  INFO 17572 --- [voluntech] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-04-29T13:28:08.303-03:00  INFO 17572 --- [voluntech] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T13:28:08.616-03:00  INFO 17572 --- [voluntech] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-04-29T13:28:09.295-03:00  INFO 17572 --- [voluntech] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authorizationService
-2025-04-29T13:28:09.526-03:00  WARN 17572 --- [voluntech] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v2/api-docs/**'], Ant [pattern='/v2/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v3/api-docs/**'], Ant [pattern='/v3/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-resources/**'], Ant [pattern='/swagger-resources/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui.html'], Ant [pattern='/swagger-ui.html']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui/**'], Ant [pattern='/swagger-ui/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:09.877-03:00  WARN 17572 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/webjars/**'], Ant [pattern='/webjars/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T13:28:10.240-03:00  INFO 17572 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-04-29T13:28:10.247-03:00  INFO 17572 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Started VoluntechApplication in 7.022 seconds (process running for 8.337)
-2025-04-29T13:28:16.208-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29T13:28:16.209-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-04-29T13:28:16.211-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-04-29T13:28:16.357-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-2] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:41:04.295-03:00  WARN 17572 --- [voluntech] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=33m26s737ms800µs400ns).
-2025-04-29T14:41:25.385-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:41:32.603-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-6] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:41:49.410-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-7] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:26.208-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-8] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:27.549-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-9] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:28.499-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-10] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:29.360-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-1] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:30.195-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-2] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:30.985-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-3] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:31.591-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-4] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:32.345-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:42:33.164-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-6] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:43:23.606-03:00  INFO 17572 --- [voluntech] [http-nio-8080-exec-7] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:43:38.392-03:00  INFO 17572 --- [voluntech] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-04-29T14:43:38.408-03:00  INFO 17572 --- [voluntech] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-04-29T14:43:38.413-03:00  INFO 17572 --- [voluntech] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:43:38.415-03:00  INFO 17572 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-29T14:43:38.419-03:00  INFO 17572 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-04-29T14:43:41.989-03:00  INFO 20404 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Starting VoluntechApplication using Java 23.0.2 with PID 20404 (C:\Users\Giovanni\Desktop\Programação\voluntech\target\classes started by Giovanni in C:\Users\Giovanni\Desktop\Programação\voluntech)
-2025-04-29T14:43:41.991-03:00  INFO 20404 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-04-29T14:43:42.826-03:00  INFO 20404 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-04-29T14:43:42.891-03:00  INFO 20404 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 4 JPA repository interfaces.
-2025-04-29T14:43:43.489-03:00  INFO 20404 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-04-29T14:43:43.502-03:00  INFO 20404 --- [voluntech] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-04-29T14:43:43.503-03:00  INFO 20404 --- [voluntech] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-04-29T14:43:43.560-03:00  INFO 20404 --- [voluntech] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-04-29T14:43:43.560-03:00  INFO 20404 --- [voluntech] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1505 ms
-2025-04-29T14:43:43.694-03:00  INFO 20404 --- [voluntech] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-04-29T14:43:43.773-03:00  INFO 20404 --- [voluntech] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
-2025-04-29T14:43:43.812-03:00  INFO 20404 --- [voluntech] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-04-29T14:43:44.079-03:00  INFO 20404 --- [voluntech] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-04-29T14:43:44.109-03:00  INFO 20404 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-04-29T14:43:44.251-03:00  INFO 20404 --- [voluntech] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e26564d
-2025-04-29T14:43:44.252-03:00  INFO 20404 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-04-29T14:43:44.285-03:00  WARN 20404 --- [voluntech] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-04-29T14:43:44.306-03:00  INFO 20404 --- [voluntech] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 17.4
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-04-29T14:43:45.351-03:00  INFO 20404 --- [voluntech] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-04-29T14:43:45.678-03:00  INFO 20404 --- [voluntech] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:43:45.930-03:00  INFO 20404 --- [voluntech] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-04-29T14:43:46.692-03:00  INFO 20404 --- [voluntech] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authorizationService
-2025-04-29T14:43:46.900-03:00  WARN 20404 --- [voluntech] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-04-29T14:43:47.238-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v2/api-docs/**'], Ant [pattern='/v2/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.238-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v3/api-docs/**'], Ant [pattern='/v3/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.239-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-resources/**'], Ant [pattern='/swagger-resources/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.239-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui.html'], Ant [pattern='/swagger-ui.html']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.239-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui/**'], Ant [pattern='/swagger-ui/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.239-03:00  WARN 20404 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/webjars/**'], Ant [pattern='/webjars/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:47.596-03:00  INFO 20404 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-04-29T14:43:47.604-03:00  INFO 20404 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Started VoluntechApplication in 6.057 seconds (process running for 6.718)
-2025-04-29T14:43:47.937-03:00  INFO 20404 --- [voluntech] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-04-29T14:43:47.951-03:00  INFO 20404 --- [voluntech] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-04-29T14:43:47.955-03:00  INFO 20404 --- [voluntech] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:43:47.957-03:00  INFO 20404 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-29T14:43:47.962-03:00  INFO 20404 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-04-29T14:43:51.156-03:00  INFO 21756 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Starting VoluntechApplication using Java 23.0.2 with PID 21756 (C:\Users\Giovanni\Desktop\Programação\voluntech\target\classes started by Giovanni in C:\Users\Giovanni\Desktop\Programação\voluntech)
-2025-04-29T14:43:51.158-03:00  INFO 21756 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-04-29T14:43:51.925-03:00  INFO 21756 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-04-29T14:43:51.984-03:00  INFO 21756 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 4 JPA repository interfaces.
-2025-04-29T14:43:52.522-03:00  INFO 21756 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-04-29T14:43:52.535-03:00  INFO 21756 --- [voluntech] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-04-29T14:43:52.536-03:00  INFO 21756 --- [voluntech] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-04-29T14:43:52.581-03:00  INFO 21756 --- [voluntech] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-04-29T14:43:52.581-03:00  INFO 21756 --- [voluntech] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1374 ms
-2025-04-29T14:43:52.698-03:00  INFO 21756 --- [voluntech] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-04-29T14:43:52.742-03:00  INFO 21756 --- [voluntech] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
-2025-04-29T14:43:52.774-03:00  INFO 21756 --- [voluntech] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-04-29T14:43:52.995-03:00  INFO 21756 --- [voluntech] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-04-29T14:43:53.021-03:00  INFO 21756 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-04-29T14:43:53.144-03:00  INFO 21756 --- [voluntech] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5b23c1f6
-2025-04-29T14:43:53.145-03:00  INFO 21756 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-04-29T14:43:53.167-03:00  WARN 21756 --- [voluntech] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-04-29T14:43:53.184-03:00  INFO 21756 --- [voluntech] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 17.4
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-04-29T14:43:54.106-03:00  INFO 21756 --- [voluntech] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-04-29T14:43:54.407-03:00  INFO 21756 --- [voluntech] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:43:54.681-03:00  INFO 21756 --- [voluntech] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-04-29T14:43:55.329-03:00  INFO 21756 --- [voluntech] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authorizationService
-2025-04-29T14:43:55.560-03:00  WARN 21756 --- [voluntech] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-04-29T14:43:56.007-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v2/api-docs/**'], Ant [pattern='/v2/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.008-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v3/api-docs/**'], Ant [pattern='/v3/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.008-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-resources/**'], Ant [pattern='/swagger-resources/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.008-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui.html'], Ant [pattern='/swagger-ui.html']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.008-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui/**'], Ant [pattern='/swagger-ui/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.008-03:00  WARN 21756 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/webjars/**'], Ant [pattern='/webjars/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:43:56.359-03:00  INFO 21756 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-04-29T14:43:56.368-03:00  INFO 21756 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Started VoluntechApplication in 5.613 seconds (process running for 6.16)
-2025-04-29T14:43:59.180-03:00  INFO 21756 --- [voluntech] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29T14:43:59.180-03:00  INFO 21756 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-04-29T14:43:59.182-03:00  INFO 21756 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-04-29T14:43:59.332-03:00  INFO 21756 --- [voluntech] [http-nio-8080-exec-1] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:43:59.500-03:00 ERROR 21756 --- [voluntech] [http-nio-8080-exec-1] c.p.v.c.AuthenticationController         : [Login] Failed login attempt for email: ad***@admin.com
-2025-04-29T14:44:10.915-03:00  INFO 21756 --- [voluntech] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-04-29T14:44:10.930-03:00  INFO 21756 --- [voluntech] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-04-29T14:44:10.934-03:00  INFO 21756 --- [voluntech] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:44:10.936-03:00  INFO 21756 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-29T14:44:10.941-03:00  INFO 21756 --- [voluntech] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-04-29T14:44:14.801-03:00  INFO 6884 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Starting VoluntechApplication using Java 23.0.2 with PID 6884 (C:\Users\Giovanni\Desktop\Programação\voluntech\target\classes started by Giovanni in C:\Users\Giovanni\Desktop\Programação\voluntech)
-2025-04-29T14:44:14.802-03:00  INFO 6884 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-04-29T14:44:15.564-03:00  INFO 6884 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-04-29T14:44:15.623-03:00  INFO 6884 --- [voluntech] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 4 JPA repository interfaces.
-2025-04-29T14:44:16.166-03:00  INFO 6884 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-04-29T14:44:16.178-03:00  INFO 6884 --- [voluntech] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-04-29T14:44:16.178-03:00  INFO 6884 --- [voluntech] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-04-29T14:44:16.224-03:00  INFO 6884 --- [voluntech] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-04-29T14:44:16.224-03:00  INFO 6884 --- [voluntech] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1373 ms
-2025-04-29T14:44:16.345-03:00  INFO 6884 --- [voluntech] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-04-29T14:44:16.390-03:00  INFO 6884 --- [voluntech] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
-2025-04-29T14:44:16.421-03:00  INFO 6884 --- [voluntech] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-04-29T14:44:16.640-03:00  INFO 6884 --- [voluntech] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-04-29T14:44:16.665-03:00  INFO 6884 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-04-29T14:44:16.791-03:00  INFO 6884 --- [voluntech] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@141dfcf9
-2025-04-29T14:44:16.793-03:00  INFO 6884 --- [voluntech] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-04-29T14:44:16.818-03:00  WARN 6884 --- [voluntech] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-04-29T14:44:16.833-03:00  INFO 6884 --- [voluntech] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 17.4
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-04-29T14:44:17.732-03:00  INFO 6884 --- [voluntech] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-04-29T14:44:18.042-03:00  INFO 6884 --- [voluntech] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-04-29T14:44:18.266-03:00  INFO 6884 --- [voluntech] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-04-29T14:44:18.885-03:00  INFO 6884 --- [voluntech] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authorizationService
-2025-04-29T14:44:19.140-03:00  WARN 6884 --- [voluntech] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-04-29T14:44:19.437-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v2/api-docs/**'], Ant [pattern='/v2/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.437-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v3/api-docs/**'], Ant [pattern='/v3/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.437-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-resources/**'], Ant [pattern='/swagger-resources/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.437-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui.html'], Ant [pattern='/swagger-ui.html']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.437-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui/**'], Ant [pattern='/swagger-ui/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.438-03:00  WARN 6884 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/webjars/**'], Ant [pattern='/webjars/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-04-29T14:44:19.744-03:00  INFO 6884 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-04-29T14:44:19.751-03:00  INFO 6884 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Started VoluntechApplication in 5.452 seconds (process running for 6.116)
-2025-04-29T14:44:29.904-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29T14:44:29.904-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-04-29T14:44:29.906-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-04-29T14:44:30.023-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-1] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:44:30.189-03:00  WARN 6884 --- [voluntech] [http-nio-8080-exec-1] c.p.v.c.AuthenticationController         : [Login] Failed login attempt for email: ad***@admin.com
-2025-04-29T14:44:38.262-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-3] c.p.v.c.AuthenticationController         : [Login] Attempt to login for email: ad***@admin.com
-2025-04-29T14:44:38.349-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-3] c.p.v.c.AuthenticationController         : [Login] Sucess login attempt for email: ad***@admin.com
-2025-04-29T14:45:00.156-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-4] c.p.v.c.AuthenticationController         : [Register Organization] Attempting to register new organization.
-2025-04-29T14:45:00.178-03:00  WARN 6884 --- [voluntech] [http-nio-8080-exec-4] c.p.v.c.OrganizationController           : [Register Organization] Attempt failed. CNPJ already in use.
-2025-04-29T14:45:11.752-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.AuthenticationController         : [Register Organization] Attempting to register new organization.
-2025-04-29T14:45:12.140-03:00  INFO 6884 --- [voluntech] [http-nio-8080-exec-5] c.p.v.c.OrganizationController           : [Register Organization] Organization successfully registered with status PENDING.
+2025-05-01T10:02:34.019-03:00  INFO 21604 --- [voluntech] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-01T10:02:34.402-03:00  INFO 21604 --- [voluntech] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T10:02:34.707-03:00  INFO 21604 --- [voluntech] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-01T10:02:35.478-03:00  INFO 21604 --- [voluntech] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name authorizationService
+2025-05-01T10:02:35.762-03:00  WARN 21604 --- [voluntech] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-01T10:02:36.186-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v2/api-docs/**'], Ant [pattern='/v2/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.187-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/v3/api-docs/**'], Ant [pattern='/v3/api-docs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.187-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-resources/**'], Ant [pattern='/swagger-resources/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.187-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui.html'], Ant [pattern='/swagger-ui.html']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.187-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/swagger-ui/**'], Ant [pattern='/swagger-ui/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.187-03:00  WARN 21604 --- [voluntech] [main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/webjars/**'], Ant [pattern='/webjars/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-05-01T10:02:36.635-03:00  INFO 21604 --- [voluntech] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-01T10:02:36.643-03:00  INFO 21604 --- [voluntech] [main] c.p.voluntech.VoluntechApplication       : Started VoluntechApplication in 14.106 seconds (process running for 16.563)
+2025-05-01T10:02:41.407-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-01T10:02:41.407-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-01T10:02:41.408-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-01T10:02:42.212-03:00  INFO 21604 --- [voluntech] [http-nio-8080-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 479 ms

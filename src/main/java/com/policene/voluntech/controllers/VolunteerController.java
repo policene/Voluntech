@@ -1,7 +1,6 @@
 package com.policene.voluntech.controllers;
 
 import com.policene.voluntech.dtos.volunteer.ChangePasswordDTO;
-import com.policene.voluntech.dtos.volunteer.VolunteerRequestDTO;
 import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.Volunteer;
@@ -11,14 +10,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
 
 @RestController
 @RequestMapping("/api/volunteers")
@@ -27,6 +27,8 @@ public class VolunteerController {
 
     private final VolunteerService volunteerService;
     private final VolunteerMapper volunteerMapper;
+
+    Logger logger = LoggerFactory.getLogger(VolunteerController.class);
 
     public VolunteerController(VolunteerService volunteerService, VolunteerMapper volunteerMapper) {
         this.volunteerService = volunteerService;
@@ -74,6 +76,7 @@ public class VolunteerController {
     })
     public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO request) {
         String authenticatedEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info("[Change Password] Attempt to change password for volunteer: {}", maskEmail(authenticatedEmail));
         volunteerService.changePassword(authenticatedEmail, request);
         return ResponseEntity.noContent().build();
     }
