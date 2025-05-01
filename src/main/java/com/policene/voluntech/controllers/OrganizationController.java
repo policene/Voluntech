@@ -16,7 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import static com.policene.voluntech.utils.MaskEmail.maskEmail;
 
 import java.util.List;
 
@@ -71,16 +74,17 @@ public class OrganizationController {
             @ApiResponse(responseCode = "403", description = "Forbidden activity.")
     })
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateOrganizationStatusDTO updateOrganizationStatusDTO) {
+        logger.info("[Change Organization Status] Attempt to change status of organization: {}", id);
         organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
         Organization organizationFound = organizationService.getById(id);
 
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
             mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(), "Your account has been approved.", "Approved");
-            logger.info("Send approved account email to {}", organizationFound.getEmail());
+            logger.info("[Change Organization Status] Send approved account email to {}", maskEmail(organizationFound.getEmail()));
         }
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.REJECTED){
             mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(),"Your account has been rejected.", "Rejected");
-            logger.info("Send rejected account email to {}", organizationFound.getEmail());
+            logger.info("[Change Organization Status] Send rejected account email to {}", maskEmail(organizationFound.getEmail()));
         }
 
         return ResponseEntity.noContent().build();

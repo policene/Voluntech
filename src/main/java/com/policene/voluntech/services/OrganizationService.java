@@ -60,11 +60,13 @@ public class OrganizationService {
     }
 
     public void changeOrganizationStatus(Long id, OrganizationStatus status) {
-        Organization organization = organizationRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Organization not found"));
+        Organization organization = organizationRepository.findById(id).orElseThrow(()-> {
+                logger.warn("[Change Organization Status] Failed to find organization with id: {}", id);
+                return new ResourceNotFoundException("Organization not found");
+        });
         organization.setStatus(status);
         update(organization);
-        logger.info("[Organization Status] Organization with id {} status changed to {}", id, status);
+        logger.info("[Change Organization Status] Changed organization with id {} to status {}", id, status);
     }
 
     public void update(Organization organization) {
