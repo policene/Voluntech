@@ -75,7 +75,7 @@ public class AuthenticationController {
             var token = tokenService.generateToken((User) authentication.getPrincipal());
             logger.info("[Login] Success login attempt for email: {}", maskEmail(data.email()));
             return ResponseEntity.ok(new LoginResponseDTO(token));
-        } catch (BadCredentialsException e) {
+        } catch (Exception e) {
             logger.warn("[Login] Failed login attempt for email: {}", maskEmail(data.email()));
             throw e;
         }
