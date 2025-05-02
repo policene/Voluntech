@@ -47,8 +47,7 @@ public class OrganizationController {
             @ApiResponse(responseCode = "401", description = "Not authenticated.")
     })
     public ResponseEntity<List<OrganizationResponseDTO>> getAllOrganizations() {
-        List<Organization> organizations = organizationService.getAll();
-        List<OrganizationResponseDTO> response = organizationMapper.toOrganizationResponseDTOList(organizations);
+        List<OrganizationResponseDTO> response = organizationService.getAll();
         return ResponseEntity.ok(response);
     }
 
@@ -60,8 +59,7 @@ public class OrganizationController {
             @ApiResponse(responseCode = "401", description = "Not authenticated.")
     })
     public ResponseEntity<OrganizationResponseDTO> getOrganizationById(@PathVariable Long id) {
-        Organization organization = organizationService.getById(id);
-        OrganizationResponseDTO response = organizationMapper.toOrganizationResponseDTO(organization);
+        OrganizationResponseDTO response = organizationService.getById(id);
         return ResponseEntity.ok(response);
     }
 
@@ -76,7 +74,7 @@ public class OrganizationController {
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateOrganizationStatusDTO updateOrganizationStatusDTO) {
         logger.info("[Change Organization Status] Attempt to change status of organization: {}", id);
         organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
-        Organization organizationFound = organizationService.getById(id);
+        Organization organizationFound = organizationMapper.toOrganization(organizationService.getById(id));
 
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
             mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(), "Your account has been approved.", "Approved");

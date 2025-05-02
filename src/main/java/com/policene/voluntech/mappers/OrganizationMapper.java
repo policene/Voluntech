@@ -13,5 +13,6 @@ public interface OrganizationMapper {
 
     OrganizationResponseDTO toOrganizationResponseDTO(Organization organization);
     List<OrganizationResponseDTO> toOrganizationResponseDTOList(List<Organization> organizations);
+    Organization toOrganization(OrganizationResponseDTO organizationResponseDTO);
 
 }

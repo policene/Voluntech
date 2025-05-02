@@ -5,6 +5,7 @@ import com.policene.voluntech.dtos.campaigns.CampaignResponseDTO;
 import com.policene.voluntech.dtos.campaigns.UpdateCampaignStatusDTO;
 import com.policene.voluntech.dtos.volunteer.ShortVolunteerResponseDTO;
 import com.policene.voluntech.mappers.CampaignMapper;
+import com.policene.voluntech.mappers.OrganizationMapper;
 import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.Campaign;
 import com.policene.voluntech.models.entities.Organization;
@@ -40,14 +41,16 @@ public class CampaignController {
     private final OrganizationService organizationService;
     private final VolunteerMapper volunteerMapper;
     private final CampaignMapper campaignMapper;
+    private final OrganizationMapper organizationMapper;
 
     Logger logger = LoggerFactory.getLogger(CampaignController.class);
 
-    public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper, CampaignMapper campaignMapper) {
+    public CampaignController(CampaignService campaignService, OrganizationService organizationService, VolunteerMapper volunteerMapper, CampaignMapper campaignMapper, OrganizationMapper organizationMapper) {
         this.campaignService = campaignService;
         this.organizationService = organizationService;
         this.volunteerMapper = volunteerMapper;
         this.campaignMapper = campaignMapper;
+        this.organizationMapper = organizationMapper;
     }
 
     @PostMapping("/api/campaigns/create")
@@ -61,7 +64,7 @@ public class CampaignController {
     })
     public ResponseEntity<Void> register(@RequestBody @Valid CampaignRequestDTO request) {
         String authenticatedEmail = getAuthentication().getName();
-        Organization organization = organizationService.findByEmail(authenticatedEmail);
+        Organization organization = organizationMapper.toOrganization(organizationService.findByEmail(authenticatedEmail));
         logger.info("[Create Campaign] Attempt to create a new campaign for organization: {}", organization.getId());
         Campaign campaign = new Campaign(request, organization);
         campaignService.createCampaign(campaign);

@@ -92,10 +92,10 @@ public class VolunteerService {
 
     @Cacheable(value = "volunteers", key = "#id")
     public VolunteerResponseDTO getById(Long id) {
-        return volunteerMapper.toVolunteerResponseDTO(
-                volunteerRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"))
-        );
+
+        Volunteer volunteerFound = volunteerRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Volunteer not found"));
+
+        return volunteerMapper.toVolunteerResponseDTO(volunteerFound);
     }
 }
