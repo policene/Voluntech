@@ -12,6 +12,8 @@ import com.policene.voluntech.repositories.UserRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,6 +76,8 @@ public class VolunteerService {
         logger.info("[Change Password] Successful change password for volunteer: {}, email: {}", volunteer.getId(), maskEmail(email));
     }
 
+    @CachePut(value = "volunteers", key = "#volunteer.id")
+    @CacheEvict(value = "volunteers", key = "'all_volunteers'")
     public void update (Volunteer volunteer) {
         volunteerRepository.save(volunteer);
     }
