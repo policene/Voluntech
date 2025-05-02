@@ -1,5 +1,6 @@
 package com.policene.voluntech.mappers;
 
+import com.policene.voluntech.dtos.organization.OrganizationRequestDTO;
 import com.policene.voluntech.dtos.organization.OrganizationResponseDTO;
 import com.policene.voluntech.models.entities.Organization;
 import org.mapstruct.Mapper;
@@ -13,6 +14,6 @@ public interface OrganizationMapper {
 
     OrganizationResponseDTO toOrganizationResponseDTO(Organization organization);
     List<OrganizationResponseDTO> toOrganizationResponseDTOList(List<Organization> organizations);
-    Organization toOrganization(OrganizationResponseDTO organizationResponseDTO);
+    Organization toOrganization(OrganizationRequestDTO organizationRequestDTO);
 
 }

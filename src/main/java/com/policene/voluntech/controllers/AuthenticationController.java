@@ -57,9 +57,6 @@ public class AuthenticationController {
         this.organizationMapper = organizationMapper;
     }
 
-
-
-
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Log in with an existing account.")
     @ApiResponses(value = {

@@ -39,33 +39,6 @@ public class OrganizationService {
         this.organizationMapper = organizationMapper;
     }
 
-    @Cacheable(value = "organizations", key = "'all_organizations'")
-    public List<OrganizationResponseDTO> getAll () {
-        return organizationRepository.findAll()
-                .stream()
-                .map(organizationMapper::toOrganizationResponseDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Cacheable(value = "organizations", key = "#id")
-    public OrganizationResponseDTO getById(Long id) {
-
-        Organization organizationFound = organizationRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Organization not found"));
-
-        return organizationMapper.toOrganizationResponseDTO(organizationFound);
-    }
-
-    @Cacheable(value = "organizations", key = "#email")
-    public OrganizationResponseDTO findByEmail(String email) {
-
-        Organization organizationFound = organizationRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("Organization not found"));
-
-        return organizationMapper.toOrganizationResponseDTO(organizationFound);
-    }
-
-
     public void register(Organization organization) {
         Optional<User> existingEmail = userRepository.findByEmail(organization.getEmail());
         Optional<Organization> existingCnpj = organizationRepository.findByCnpj(organization.getCnpj());
@@ -82,6 +55,37 @@ public class OrganizationService {
         logger.info("[Register Organization] Organization successfully registered with status {}.", organization.getStatus());
     }
 
+    // Retornando DTOs na Service por causa do cache, evitando de armazenar a
+    // entidade no Redis.
+    @Cacheable(value = "organizations", key = "'all_approved_organizations'")
+    public List<OrganizationResponseDTO> getAllApproved () {
+        return organizationRepository.findByStatus(OrganizationStatus.APPROVED)
+                .stream()
+                .map(organizationMapper::toOrganizationResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable(value = "organizations", key = "'all_pending_organizations'")
+    public List<OrganizationResponseDTO> getAllPending () {
+        return organizationRepository.findByStatus(OrganizationStatus.PENDING)
+                .stream()
+                .map(organizationMapper::toOrganizationResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable(value = "organizations", key = "#id")
+    public OrganizationResponseDTO getById(Long id) {
+        return organizationMapper.toOrganizationResponseDTO(
+                organizationRepository.findById(id).orElseThrow(
+                        () -> new ResourceNotFoundException("Organization not found")));
+    }
+
+    // Não estou cacheando essa busca porque é pouco usada, somente na hora da
+    // criação de uma campanha.
+    public Organization getByEmail(String email) {
+        return organizationRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Organization not found"));
+    }
+
 
     public void changeOrganizationStatus(Long id, OrganizationStatus status) {
         Organization organization = organizationRepository.findById(id).orElseThrow(()-> {
@@ -93,13 +97,14 @@ public class OrganizationService {
         logger.info("[Change Organization Status] Changed organization with id {} to status {}", id, status);
     }
 
+    // Quando alteramos o dado precisamos atualizar os caches e apagar o cache de outras operações.
     @Caching(
             put = {
-            @CachePut(value = "organizations", key = "#organization.id"),
-            @CachePut(value = "organizations", key = "#organization.email")
+            @CachePut(value = "organizations", key = "#organization.id")
             },
             evict = {
-                    @CacheEvict(value = "organizations", key = "'all_organizations'")
+                    @CacheEvict(value = "organizations", key = "'all_approved_organizations'"),
+                    @CacheEvict(value = "organizations", key = "'all_pending_organizations'")
             }
     )
     public void update(Organization organization) {

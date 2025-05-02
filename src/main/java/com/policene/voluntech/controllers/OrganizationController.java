@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import static com.policene.voluntech.utils.MaskEmail.maskEmail;
@@ -29,25 +28,36 @@ import java.util.List;
 public class OrganizationController {
 
     private final OrganizationService organizationService;
-    private final OrganizationMapper organizationMapper;
     private final MailService mailService;
 
     Logger logger = LoggerFactory.getLogger(OrganizationController.class);
 
     public OrganizationController(OrganizationService organizationService, OrganizationMapper organizationMapper, MailService mailService) {
         this.organizationService = organizationService;
-        this.organizationMapper = organizationMapper;
         this.mailService = mailService;
     }
 
     @GetMapping
-    @Operation(summary = "Get All Organizations", description = "Get all organizations.")
+    @Operation(summary = "Get All Approved Organizations", description = "Get all approved organizations.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success."),
             @ApiResponse(responseCode = "401", description = "Not authenticated.")
     })
     public ResponseEntity<List<OrganizationResponseDTO>> getAllOrganizations() {
-        List<OrganizationResponseDTO> response = organizationService.getAll();
+        List<OrganizationResponseDTO> response = organizationService.getAllApproved();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pending")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get All Pending Organizations", description = "Get all organizations with PENDING status.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success."),
+            @ApiResponse(responseCode = "401", description = "Not authenticated."),
+            @ApiResponse(responseCode = "403", description = "Forbidden action.")
+    })
+    public ResponseEntity<List<OrganizationResponseDTO>> getAllPendingOrganizations() {
+        List<OrganizationResponseDTO> response = organizationService.getAllPending();
         return ResponseEntity.ok(response);
     }
 
@@ -74,15 +84,16 @@ public class OrganizationController {
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody @Valid UpdateOrganizationStatusDTO updateOrganizationStatusDTO) {
         logger.info("[Change Organization Status] Attempt to change status of organization: {}", id);
         organizationService.changeOrganizationStatus(id, updateOrganizationStatusDTO.status());
-        Organization organizationFound = organizationMapper.toOrganization(organizationService.getById(id));
+
+        OrganizationResponseDTO organization = organizationService.getById(id);
 
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.APPROVED){
-            mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(), "Your account has been approved.", "Approved");
-            logger.info("[Change Organization Status] Send approved account email to {}", maskEmail(organizationFound.getEmail()));
+            mailService.sendMail(organization.email(), organization.organizationName(), "Your account has been approved.", "Approved");
+            logger.info("[Change Organization Status] Send approved account email to {}", maskEmail(organization.email()));
         }
         if(updateOrganizationStatusDTO.status() == OrganizationStatus.REJECTED){
-            mailService.sendMail(organizationFound.getEmail(), organizationFound.getOrganizationName(),"Your account has been rejected.", "Rejected");
-            logger.info("[Change Organization Status] Send rejected account email to {}", maskEmail(organizationFound.getEmail()));
+            mailService.sendMail(organization.email(), organization.organizationName(),"Your account has been rejected.", "Rejected");
+            logger.info("[Change Organization Status] Send rejected account email to {}", maskEmail(organization.email()));
         }
 
         return ResponseEntity.noContent().build();
