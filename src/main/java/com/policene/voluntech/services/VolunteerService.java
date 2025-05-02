@@ -1,20 +1,24 @@
 package com.policene.voluntech.services;
 
 import com.policene.voluntech.dtos.volunteer.ChangePasswordDTO;
+import com.policene.voluntech.dtos.volunteer.VolunteerResponseDTO;
 import com.policene.voluntech.exceptions.CpfAlreadyExistsException;
 import com.policene.voluntech.exceptions.EmailAlreadyExistsException;
 import com.policene.voluntech.exceptions.ResourceNotFoundException;
+import com.policene.voluntech.mappers.VolunteerMapper;
 import com.policene.voluntech.models.entities.User;
 import com.policene.voluntech.models.entities.Volunteer;
 import com.policene.voluntech.repositories.UserRepository;
 import com.policene.voluntech.repositories.VolunteerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.policene.voluntech.utils.MaskEmail.maskEmail;
 
@@ -24,13 +28,15 @@ public class VolunteerService {
     private final VolunteerRepository volunteerRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VolunteerMapper volunteerMapper;
 
     Logger logger = LoggerFactory.getLogger(VolunteerService.class);
 
-    public VolunteerService(VolunteerRepository volunteerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public VolunteerService(VolunteerRepository volunteerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, VolunteerMapper volunteerMapper) {
         this.volunteerRepository = volunteerRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.volunteerMapper = volunteerMapper;
     }
 
     public void register(Volunteer volunteer) {
@@ -72,14 +78,20 @@ public class VolunteerService {
         volunteerRepository.save(volunteer);
     }
 
-
-    public List<Volunteer> getAll() {
-        return volunteerRepository.findAll();
+    @Cacheable(value = "volunteers", key = "'all_volunteers'")
+    public List<VolunteerResponseDTO> getAll() {
+        return volunteerRepository.findAll()
+                .stream()
+                .map(volunteerMapper::toVolunteerResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    public Volunteer getById(Long id) {
-        return volunteerRepository
+    @Cacheable(value = "volunteers", key = "#id")
+    public VolunteerResponseDTO getById(Long id) {
+        return volunteerMapper.toVolunteerResponseDTO(
+                volunteerRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Volunteer not found"))
+        );
     }
 }

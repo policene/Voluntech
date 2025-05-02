@@ -44,8 +44,7 @@ public class VolunteerController {
             @ApiResponse(responseCode = "403", description = "Forbidden activity.")
     })
     public ResponseEntity<List<VolunteerResponseDTO>> getAllVolunteers() {
-        List<Volunteer> volunteers = volunteerService.getAll();
-        List<VolunteerResponseDTO> response = volunteerMapper.toVolunteerResponseDTOList(volunteers);
+        List<VolunteerResponseDTO> response = volunteerService.getAll();
         return ResponseEntity.ok(response);
     }
 
@@ -59,8 +58,7 @@ public class VolunteerController {
             @ApiResponse(responseCode = "403", description = "Forbidden activity.")
     })
     public ResponseEntity<VolunteerResponseDTO> getVolunteerById(@PathVariable Long id) {
-        Volunteer volunteer = volunteerService.getById(id);
-        VolunteerResponseDTO response = volunteerMapper.toVolunteerResponseDTO(volunteer);
+        VolunteerResponseDTO response = volunteerService.getById(id);
         return ResponseEntity.ok(response);
     }
 
